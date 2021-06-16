@@ -749,7 +749,7 @@ cd ../..</pre>
                     source tree. The GrapheneOS browser build is located at external/vanadium and the
                     WebView is at external/chromium-webview.</p>
 
-                    <p>See <a href="https://chromium.googlesource.com/chromium/src/+/master/docs/android_build_instructions.md">
+                    <p>See <a href="https://chromium.googlesource.com/chromium/src/+/refs/heads/main/docs/android_build_instructions.md">
                     Chromium's Android build instructions</a> for details on obtaining the
                     prerequisites.</p>
 
@@ -801,7 +801,7 @@ gclient sync -D --with_branch_heads --with_tags --jobs 32</pre>
 
                     <p>Sign the apks:</p>
 
-                    <pre>../generate_release.sh</pre>
+                    <pre>../generate_release.sh out</pre>
 
                     <p>The apks need to be copied from <code>out/Default/apks/release/*.apk</code>
                     into the Android source tree at
@@ -1002,19 +1002,19 @@ mv android-studio studio</pre>
 
                         <pre>mkdir -p ~/android/cts/{arm,x86}
 cd ~/android/cts/arm
-curl -O https://dl.google.com/dl/android/cts/android-cts-11_r1-linux_x86-arm.zip
-unzip android-cts-11_r1-linux_x86-arm.zip
-rm android-cts-11_r1-linux_x86-arm.zip
-curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-11_r1-linux_x86-arm.zip
-unzip android-cts-verifier-11_r1-linux_x86-arm.zip
-rm android-cts-verifier-11_r1-linux_x86-arm.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-11_r4-linux_x86-arm.zip
+unzip android-cts-11_r4-linux_x86-arm.zip
+rm android-cts-11_r4-linux_x86-arm.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-11_r4-linux_x86-arm.zip
+unzip android-cts-verifier-11_r4-linux_x86-arm.zip
+rm android-cts-verifier-11_r4-linux_x86-arm.zip
 cd ~/android/cts/x86
-curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-11_r1-linux_x86-x86.zip
-unzip android-cts-verifier-11_r1-linux_x86-x86.zip
-rm android-cts-verifier-11_r1-linux_x86-x86.zip
-curl -O https://dl.google.com/dl/android/cts/android-cts-11_r1-linux_x86-x86.zip
-unzip android-cts-11_r1-linux_x86-x86.zip
-rm android-cts-11_r1-linux_x86-x86.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-11_r4-linux_x86-x86.zip
+unzip android-cts-verifier-11_r4-linux_x86-x86.zip
+rm android-cts-verifier-11_r4-linux_x86-x86.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-11_r4-linux_x86-x86.zip
+unzip android-cts-11_r4-linux_x86-x86.zip
+rm android-cts-11_r4-linux_x86-x86.zip
 cd ~/android/cts
 curl -O https://dl.google.com/dl/android/cts/android-cts-media-1.5.zip
 unzip android-cts-media-1.5.zip
