@@ -5,7 +5,7 @@ from datetime import datetime
 import lxml.html
 from lxml import etree
 
-document = lxml.html.parse("static_tmp/releases.html").getroot()
+document = lxml.html.parse("static-tmp/releases.html").getroot()
 releases = document.body.cssselect("#changelog article")
 
 updated = None
@@ -13,7 +13,10 @@ entries = []
 
 for release in releases:
     title = release.attrib["id"]
-    time = datetime.strptime(title, "%Y.%m.%d.%H").isoformat() + "Z"
+    try:
+        time = datetime.strptime(title, "%Y%m%d%H").isoformat() + "Z"
+    except ValueError:
+        time = datetime.strptime(title, "%Y.%m.%d.%H").isoformat() + "Z"
     if updated is None:
         updated = time
     content = [etree.tostring(e).decode() for e in release.getchildren()[1:]]
@@ -48,5 +51,5 @@ feed = f"""<?xml version="1.0" encoding="utf-8"?>
 </feed>
 """
 
-with open("static_tmp/releases.atom", "w") as f:
+with open("static-tmp/releases.atom", "w") as f:
     f.write(feed)

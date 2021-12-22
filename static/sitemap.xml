@@ -28,7 +28,7 @@
     </url>
     <url>
         <loc>https://grapheneos.org/usage</loc>
-        <priority>0.5</priority>
+        <priority>1.0</priority>
     </url>
     <url>
         <loc>https://grapheneos.org/faq</loc>
@@ -56,6 +56,10 @@
     </url>
     <url>
         <loc>https://grapheneos.org/articles/</loc>
+        <priority>0.5</priority>
+    </url>
+    <url>
+        <loc>https://grapheneos.org/articles/attestation-compatibility-guide</loc>
         <priority>0.5</priority>
     </url>
     <url>
@@ -96,6 +100,6 @@
     </url>
     <url>
         <loc>https://grapheneos.org/legal/Micay_%20Copperhead_%20Statement%20of%20Defendant%20and%20Counterclaim.pdf</loc>
-        <priority>0.2</priority>
+        <priority>0.1</priority>
     </url>
 </urlset>

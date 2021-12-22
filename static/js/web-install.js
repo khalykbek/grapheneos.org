@@ -1,6 +1,6 @@
 // @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt MIT
 
-import * as fastboot from "./fastboot/v1.0.9/fastboot.min.mjs";
+import * as fastboot from "./fastboot/v1.1.1/fastboot.min.mjs";
 
 const RELEASES_URL = "https://releases.grapheneos.org";
 
@@ -140,21 +140,32 @@ async function unlockBootloader(setProgress) {
     return "Bootloader unlocked.";
 }
 
+const supportedDevices = ["raven", "oriole", "barbet", "redfin", "bramble", "sunfish", "coral", "flame", "bonito", "sargo", "crosshatch", "blueline"];
+
+const qualcommDevices = ["barbet", "redfin", "bramble", "sunfish", "coral", "flame", "bonito", "sargo", "crosshatch", "blueline"];
+
+const legacyQualcommDevices = ["sunfish", "coral", "flame", "bonito", "sargo", "crosshatch", "blueline"];
+
+const gs101Devices = ["raven", "oriole"];
+
 async function getLatestRelease() {
     let product = await device.getVariable("product");
+    if (!supportedDevices.includes(product)) {
+        throw new Error(`device model (${product}) is not supported by the GrapheneOS web installer`);
+    }
 
     let metadataResp = await fetch(`${RELEASES_URL}/${product}-stable`);
     let metadata = await metadataResp.text();
     let releaseId = metadata.split(" ")[0];
 
-    return `${product}-factory-${releaseId}.zip`;
+    return [`${product}-factory-${releaseId}.zip`, product];
 }
 
 async function downloadRelease(setProgress) {
     await ensureConnected(setProgress);
 
     setProgress("Finding latest release...");
-    let latestZip = await getLatestRelease();
+    let [latestZip,] = await getLatestRelease();
 
     // Download and cache the zip as a blob
     safeToLeave = false;
@@ -195,7 +206,7 @@ async function flashRelease(setProgress) {
     // Need to do this again because the user may not have clicked download if
     // it was cached
     setProgress("Finding latest release...");
-    let latestZip = await getLatestRelease();
+    let [latestZip, product] = await getLatestRelease();
     await blobStore.init();
     let blob = await blobStore.loadFile(latestZip);
     if (blob === null) {
@@ -212,6 +223,25 @@ async function flashRelease(setProgress) {
                 setProgress(`${userAction} ${userItem}...`, progress);
             }
         );
+        setProgress("Disabling UART...");
+        // See https://android.googlesource.com/platform/system/core/+/eclair-release/fastboot/fastboot.c#532
+        // for context as to why the trailing space is needed.
+        await device.runCommand("oem uart disable ");
+        if (qualcommDevices.includes(product)) {
+            setProgress("Erasing apdp...");
+            // Both slots are wiped as even apdp on an inactive slot will modify /proc/cmdline
+            await device.runCommand("erase:apdp_a");
+            await device.runCommand("erase:apdp_b");
+        }
+        if (legacyQualcommDevices.includes(product)) {
+            setProgress("Erasing msadp...");
+            await device.runCommand("erase:msadp_a");
+            await device.runCommand("erase:msadp_b");
+        }
+        if (gs101Devices.includes(product)) {
+            setProgress("Disabling FIPS...");
+            await device.runCommand("erase:fips");
+        }
     } finally {
         safeToLeave = true;
     }
@@ -295,7 +325,7 @@ fastboot.setDebugLevel(2);
 
 fastboot.configureZip({
     workerScripts: {
-        inflate: ["/js/fastboot/v1.0.9/vendor/z-worker-pako.js", "pako_inflate.min.js"],
+        inflate: ["/js/fastboot/v1.1.1/vendor/z-worker-pako.js", "pako_inflate.min.js"],
     },
 });
 

@@ -9,21 +9,30 @@
 // https://www.w3.org/Protocols/HTTP/Fragment/draft-bos-http-redirect-00.txt
 
 const redirects = new Map([
-    ["/#never-google-services", "/faq#google-services"],
-    ["/#device-support", "/faq#device-support"],
+    // removed main page sections
+    ["/#copyright-and-licensing", "/faq#copyright-and-licensing"],
+    ["/#history", "/history"],
     ["/#roadmap", "/faq#roadmap"],
     ["/#upstream", "/faq#upstream"],
-    ["/#copyright-and-licensing", "/faq#copyright-and-licensing"],
-    ["/#history", "/history/#history"],
+
     ["/usage#default-connections", "/faq#default-connections"],
-    ["/releases#marlin-stable", "/faq#legacy-devices"],
-    ["/releases#sailfish-stable", "/faq#legacy-devices"],
-    ["/releases#marlin-beta", "/faq#legacy-devices"],
-    ["/releases#sailfish-beta", "/faq#legacy-devices"],
     ["/faq#dns", "/faq#custom-dns"],
-    ["/build#upgrading-to-android-10", "/build#generating-release-signing-keys"],
     ["/install/cli#fastboot-as-non-root", "/install/cli#flashing-as-non-root"],
     ["/install/web#fastboot-as-non-root", "/install/web#flashing-as-non-root"],
+
+    // legacy devices
+    ["/releases#marlin-stable", "/faq#legacy-devices"],
+    ["/releases#marlin-beta", "/faq#legacy-devices"],
+    ["/releases#sailfish-stable", "/faq#legacy-devices"],
+    ["/releases#sailfish-beta", "/faq#legacy-devices"],
+    ["/releases#taimen-stable", "/faq#legacy-devices"],
+    ["/releases#taimen-beta", "/faq#legacy-devices"],
+    ["/releases#walleye-stable", "/faq#legacy-devices"],
+    ["/releases#walleye-beta", "/faq#legacy-devices"],
+
+    // legacy servers
+    ["/articles/grapheneos-servers#apps.grapheneos.org", "/articles/grapheneos-servers#releases.grapheneos.org"],
+    ["/articles/grapheneos-servers#time.grapheneos.org", "/articles/grapheneos-servers#grapheneos.network"],
 
     // preserve links to CLI install guide from when it was /install
     ["/install/#prerequisites", "/install/cli#prerequisites"],
@@ -47,7 +56,7 @@ const redirects = new Map([
     ["/install/#further-information", "/install/cli#further-information"],
 ]);
 
-function handle_hash() {
+function handleHash() {
     if (window.location.hash) {
         const redirect = redirects.get(window.location.pathname + window.location.hash);
         if (redirect) {
@@ -56,7 +65,7 @@ function handle_hash() {
     }
 }
 
-handle_hash();
-addEventListener("hashchange", handle_hash, false);
+handleHash();
+addEventListener("hashchange", handleHash, false);
 
 // @license-end

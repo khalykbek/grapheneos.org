@@ -5,6 +5,7 @@
         <title>Web installer | Install | GrapheneOS</title>
         <meta name="description" content="Web-based installer for GrapheneOS, a security and privacy focused mobile OS with Android app compatibility."/>
         <meta name="theme-color" content="#212121"/>
+        <meta name="color-scheme" content="dark light"/>
         <meta name="msapplication-TileColor" content="#ffffff"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="twitter:site" content="@GrapheneOS"/>
@@ -21,20 +22,20 @@
         <link rel="canonical" href="https://grapheneos.org/install/web"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="/mask-icon.svg" color="#1a1a1a"/>
+        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        <link rel="stylesheet" href="/main.css"/>
+        {{css|/main.css}}
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
-        <script type="module" src="/js/redirect.js"></script>
-        <script type="module" src="/js/fastboot/v1.0.9/fastboot.min.mjs"></script>
-        <script type="module" src="/js/web-install.js"></script>
+        {{js|/js/redirect.js}}
+        <script type="module" src="/js/fastboot/v1.1.1/fastboot.min.mjs" integrity="sha256-OXtHjW8CO7yw1L2Od6fGK7WVTCMl7Zghu24DZDNCBjI="></script>
+        {{js|/js/web-install.js}}
     </head>
     <body>
         <header>
             <nav id="site-menu">
                 <ul>
-                    <li><a href="/"><img src="/mask-icon.svg" alt=""/>GrapheneOS</a></li>
+                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
                     <li><a href="/features">Features</a></li>
                     <li><a href="/install/">Install</a></li>
                     <li><a href="/build">Build</a></li>
@@ -91,7 +92,7 @@
             <section id="prerequisites">
                 <h2><a href="#prerequisites">Prerequisites</a></h2>
 
-                <p>You should have at least 2GB of free memory available and 8GB of free storage
+                <p>You should have at least 2GB of free memory available and 32GB of free storage
                 space.</p>
 
                 <p>You need a USB cable for attaching the device to a laptop or desktop. Whenever
@@ -111,9 +112,12 @@
 
                 <ul>
                     <li>Windows 10</li>
+                    <li>Windows 11</li>
                     <li>macOS Big Sur</li>
+                    <li>macOS Monterey</li>
                     <li>Arch Linux</li>
                     <li>Debian 10 (buster)</li>
+                    <li>Debian 11 (bullseye)</li>
                     <li>Ubuntu 20.04 LTS</li>
                     <li>Ubuntu 20.10</li>
                     <li>ChromeOS</li>
@@ -166,7 +170,7 @@
                 enabled.</p>
 
                 <p>Next, go to Settings ➔ System ➔ Advanced ➔ Developer options and toggle on the
-                'Enable OEM unlocking' setting. This requires internet access on devices with Google
+                'OEM unlocking' setting. This requires internet access on devices with Google
                 Play services as part of Factory Reset Protection (FRP) for anti-theft protection.</p>
             </section>
 
@@ -201,10 +205,19 @@
                 <p>Connect the phone to the computer. On Linux, you'll need to do this again if
                 you didn't have the udev rules set up when you connected it.</p>
 
-                <p>On Windows, you may need to install a driver for fastboot now: In Windows Update,
-                click Check for updates. After that there might be a link "View optional updates."
-                Download and install any driver updates. If there are no optional updates, simply
-                continue with the installation instructions.</p>
+                <p>On Windows, you need to install a driver for fastboot if you don't already have
+                it. No driver is needed on other operating systems. You can obtain the driver from
+                Windows Update which will detect it as an optional update when the device is
+                booted into the bootloader interface and connected to the computer. Open Windows
+                Update, run a check for updates and then open the "View optional updates"
+                interface. Install the driver for the Android bootloader interface as an optional
+                update.</p>
+
+                <p>An alternative approach to obtaining the Windows fastboot driver is to obtain
+                the <a href="https://developer.android.com/studio/run/win-usb">latest driver for
+                Pixels</a> from Google and then
+                <a href="https://developer.android.com/studio/run/oem-usb#InstallingDriver">manually
+                install it with the Windows Device Manager</a>.</p>
             </section>
 
             <section id="unlocking-the-bootloader">
@@ -331,7 +344,7 @@
                     for a guide.</p>
 
                     <p>After the initial verification, which results in pairing, performing verification
-                    against between the same Auditor and Auditee (as long as the app data hasn't been
+                    again between the same Auditor and Auditee (as long as the app data hasn't been
                     cleared) will provide strong validation of the identity and integrity of the
                     device. That makes it best to get the pairing done right after installation. You can
                     also consider setting up the optional remote attestation service.</p>
@@ -366,7 +379,7 @@
             </section>
         </main>
         <footer>
-            <a href="/"><img src="/mask-icon.svg" width="512" height="512" alt=""/>GrapheneOS</a>
+            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
             <ul id="social">
                 <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
                 <li><a href="https://github.com/GrapheneOS">GitHub</a></li>

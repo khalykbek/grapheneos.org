@@ -5,6 +5,7 @@
         <title>Build | GrapheneOS</title>
         <meta name="description" content="Building instructions for GrapheneOS, a security and privacy focused mobile OS with Android app compatibility."/>
         <meta name="theme-color" content="#212121"/>
+        <meta name="color-scheme" content="dark light"/>
         <meta name="msapplication-TileColor" content="#ffffff"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="twitter:site" content="@GrapheneOS"/>
@@ -21,18 +22,17 @@
         <link rel="canonical" href="https://grapheneos.org/build"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="/mask-icon.svg" color="#1a1a1a"/>
+        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        <link rel="stylesheet" href="/main.css"/>
+        {{css|/main.css}}
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
-        <script type="module" src="/js/redirect.js"></script>
     </head>
     <body>
         <header>
             <nav id="site-menu">
                 <ul>
-                    <li><a href="/"><img src="/mask-icon.svg" alt=""/>GrapheneOS</a></li>
+                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
                     <li><a href="/features">Features</a></li>
                     <li><a href="/install/">Install</a></li>
                     <li aria-current="page"><a href="/build">Build</a></li>
@@ -72,7 +72,13 @@
                             <li><a href="#kernel">Kernel</a></li>
                             <li><a href="#setting-up-the-os-build-environment">Setting up the OS build environment</a></li>
                             <li><a href="#reproducible-builds">Reproducible builds</a></li>
-                            <li><a href="#extracting-vendor-files-for-pixel-devices">Extracting vendor files for Pixel devices</a></li>
+                            <li>
+                                <a href="#extracting-vendor-files-for-pixel-devices">Extracting vendor files for Pixel devices</a>
+                                <ul>
+                                    <li><a href="#extracting-vendor-files-for-pixel-5-and-earlier">Pixel 5 and earlier</a></li>
+                                    <li><a href="#extracting-vendor-files-for-pixel-6-and-later">Pixel 6 and later</a></li>
+                                </ul>
+                            </li>
                             <li><a href="#building">Building</a></li>
                             <li><a href="#faster-builds-for-development-use-only">Faster builds for development use only</a></li>
                             <li>
@@ -101,6 +107,7 @@
                     <li><a href="#stable-release-manifest">Stable release manifest</a></li>
                     <li><a href="#standalone-sdk">Standalone SDK</a></li>
                     <li><a href="#android-studio">Android Studio</a></li>
+                    <li><a href="#updating-gradle-and-gradle-wrapper-for-standalone-apps">Updating Gradle and Gradle wrapper for standalone apps</a></li>
                     <li><a href="#obtaining-upstream-manifests">Obtaining upstream manifests</a></li>
                     <li>
                         <a href="#testing">Testing</a>
@@ -136,15 +143,18 @@
                     <p>Smartphone targets:</p>
 
                     <ul>
-                        <li>aosp_redfin (Pixel 5)</li>
-                        <li>aosp_bramble (Pixel 4a (5G))</li>
-                        <li>aosp_sunfish (Pixel 4a)</li>
-                        <li>aosp_coral (Pixel 4 XL)</li>
-                        <li>aosp_flame (Pixel 4)</li>
-                        <li>aosp_bonito (Pixel 3a XL)</li>
-                        <li>aosp_sargo (Pixel 3a)</li>
-                        <li>aosp_crosshatch (Pixel 3 XL)</li>
-                        <li>aosp_blueline (Pixel 3)</li>
+                        <li>raven (Pixel 6 Pro)</li>
+                        <li>oriole (Pixel 6)</li>
+                        <li>barbet (Pixel 5a)</li>
+                        <li>redfin (Pixel 5)</li>
+                        <li>bramble (Pixel 4a (5G))</li>
+                        <li>sunfish (Pixel 4a)</li>
+                        <li>coral (Pixel 4 XL)</li>
+                        <li>flame (Pixel 4)</li>
+                        <li>bonito (Pixel 3a XL)</li>
+                        <li>sargo (Pixel 3a)</li>
+                        <li>crosshatch (Pixel 3 XL)</li>
+                        <li>blueline (Pixel 3)</li>
                     </ul>
 
                     <p>These are all fully supported production-ready targets supporting all the
@@ -212,7 +222,7 @@
                         <li>python3 (for repo)</li>
                         <li>git (both for repo and manual usage)</li>
                         <li>gpg (both for repo and manual usage)</li>
-                        <li>89GiB+ storage for a standard sync with history, 61GiB+ storage for a
+                        <li>131GiB+ storage for a standard sync with history, 61GiB+ storage for a
                             lightweight sync</li>
                     </ul>
 
@@ -273,11 +283,19 @@
                         <li>zip</li>
                     </ul>
 
-                    <p>Additional android-prepare-vendor (for Pixel phones) dependencies:</p>
+                    <p>Additional dependencies for Pixel phones before the 6th generation:</p>
 
                     <ul>
+                        <li>e2fsprogs (for debugfs)</li>
                         <li>OpenJDK (for the jar command)</li>
                         <li>protobuf library for Python 3</li>
+                        <li>jq</li>
+                    </ul>
+
+                    <p>Additional dependencies for 6th generation Pixel phones:</p>
+
+                    <ul>
+                        <li>yarn</li>
                     </ul>
 
                     <p>Additional Vanadium (Chromium) build dependencies not provided by the source tree:</p>
@@ -304,15 +322,23 @@
                     <section id="development-branch">
                         <h4><a href="#development-branch">Development branch</a></h4>
 
-                        <p>The <code>11</code> branch is the only active development branch for GrapheneOS
-                        development. Older branches are no longer maintained. It is currently used for all
-                        officially supported devices and should be used for the basis of ports to other
-                        devices. Occasionally, some devices may be supported through device support branches
-                        to avoid impacting other devices with changes needed to support them.</p>
+                        <p>The <code>12</code> branch is the main development branch of
+                        GrapheneOS. It follows along with the latest stable releases of the
+                        Android Open Source Project which currently means the latest monthly
+                        release of the <code>android12-release</code> (Android 12) branch. The
+                        <code>12</code> branch of GrapheneOS should be used for generic builds
+                        including the emulator, porting to other devices and for non-legacy
+                        officially supported devices other than the Pixel 6 / Pixel 6 Pro. Pixel 6
+                        / Pixel 6 Pro currently use the <code>12-raviole</code> development branch
+                        since AOSP uses a separate device branch for newly added devices and it
+                        hasn't been merged into the main branch as part of a quarterly or major
+                        release yet. Pixel 3 / Pixel 3 XL use the <code>12-crosshatch</code>
+                        branch setting an appropriate <code>BUILD_ID</code> and security patch
+                        level field.</p>
 
-                        <pre>mkdir grapheneos-11
-cd grapheneos-11
-repo init -u https://github.com/GrapheneOS/platform_manifest.git -b 11
+                        <pre>mkdir grapheneos-12
+cd grapheneos-12
+repo init -u https://github.com/GrapheneOS/platform_manifest.git -b 12
 repo sync -j32</pre>
 
                         <p>If your network is unreliable and <code>repo sync</code> fails, you can run the
@@ -349,7 +375,7 @@ cd ../..</pre>
                         script to verify tag signatures across all the repositories, since they simply point
                         to the same commits with the same hashes.</p>
 
-                        <p>Note that the repo command itself takes care of updating itself and uses gpg to
+                        <p>Note that the repo command itself takes care of updating itself and uses GPG to
                         verify by default.</p>
                     </section>
                 </section>
@@ -371,7 +397,7 @@ cd ../..</pre>
 
                     <p>The kernel needs to be built in advance, since it uses a separate build system.</p>
 
-                    <p>Prebuilts are provided for the all the officially supported devices, so this step
+                    <p>Prebuilts are provided for all the officially supported devices, so this step
                     is optional.</p>
 
                     <p>List of kernels corresponding to officially supported devices:</p>
@@ -385,8 +411,13 @@ cd ../..</pre>
                                 <li>Pixel 3a, Pixel 3a XL: bonito</li>
                             </ul>
                         </li>
-                        <li>Pixel 4, Pixel 4 XL: coral</li>
-                        <li>Pixel 4a: sunfish</li>
+                        <li>
+                            Pixel 4, Pixel 4 XL, Pixel 4a: coral
+                            <ul>
+                                <li>Pixel 4, Pixel 4 XL: coral</li>
+                                <li>Pixel 4a: sunfish</li>
+                            </ul>
+                        </li>
                         <li>
                             Pixel 4a (5G), Pixel 5: redbull
                             <ul>
@@ -394,6 +425,8 @@ cd ../..</pre>
                                 <li>Pixel 5: redfin</li>
                             </ul>
                         </li>
+                        <li>Pixel 5a: barbet</li>
+                        <li>Pixel 6: raviole</li>
                     </ul>
 
                     <p>As part of the hardening in GrapheneOS, it uses fully monolithic kernel builds with
@@ -403,19 +436,18 @@ cd ../..</pre>
                     marked as using a separate build above need to have the device variant passed to the
                     GrapheneOS kernel build script to select the device.</p>
 
-                    <p>For the Pixel 3, Pixel 3 XL, Pixel 3a, Pixel 3a XL, Pixel 4, Pixel 4 XL and Pixel
-                    4a the kernel repository uses submodules for building in out-of-tree modules. You need
-                    to make sure the submodule sources are updated before building. In the future, this
-                    should end up being handled automatically by <code>repo</code>. There's no harm in
-                    running the submodule commands for other devices as they will simply not do
-                    anything.</p>
+                    <p>The kernel repositories use submodules for building in out-of-tree modules.
+                    You need to make sure the submodule sources are updated before building. In
+                    the future, this should end up being handled automatically by
+                    <code>repo</code>. There's no harm in running the submodule commands for other
+                    devices as they will simply not do anything.</p>
 
-                    <p>For example, to build the kernel for blueline:</p>
+                    <p>For example, to build the kernel for redfin:</p>
 
-                    <pre>cd kernel/google/crosshatch
+                    <pre>cd kernel/google/redbull
 git submodule sync
 git submodule update --init --recursive
-./build.sh blueline</pre>
+./build.sh redfin</pre>
                 </section>
 
                 <section id="setting-up-the-os-build-environment">
@@ -428,9 +460,9 @@ git submodule update --init --recursive
 
                     <pre>source script/envsetup.sh</pre>
 
-                    <p>Select the desired build target (<code>aosp_sunfish</code> is the Pixel 4a):</p>
+                    <p>Select the desired build target (<code>redfin</code> is the Pixel 5):</p>
 
-                    <pre>choosecombo release aosp_sunfish user</pre>
+                    <pre>choosecombo release redfin user</pre>
 
                     <p>For a development build, you may want to replace <code>user</code> with
                     <code>userdebug</code> in order to have better debugging support. Production builds
@@ -486,17 +518,27 @@ git submodule update --init --recursive
                     that the official builds match the sources, since it has signature verification (which
                     is an important part of the verified boot and attestation security model).</p>
 
-                    <p>Extract the vendor files corresponding to the matching release with
-                    <code>DEVICE</code> and <code>BUILD_ID</code> replaced with the appropriate
-                    values:</p>
+                    <section id="extracting-vendor-files-for-pixel-5-and-earlier">
+                        <h4><a href="#extracting-vendor-files-for-pixel-5-and-earlier">Pixel 5 and earlier</a></h4>
 
-                    <pre>vendor/android-prepare-vendor/execute-all.sh -d DEVICE -b BUILD_ID -o vendor/android-prepare-vendor
+                        <p>Extract the vendor files corresponding to the matching release with
+                        <code>DEVICE</code> and <code>BUILD_ID</code> replaced with the
+                        appropriate values:</p>
+
+                        <pre>vendor/android-prepare-vendor/execute-all.sh -d DEVICE -b BUILD_ID -o vendor/android-prepare-vendor
 mkdir -p vendor/google_devices
 rm -rf vendor/google_devices/DEVICE
 mv vendor/android-prepare-vendor/DEVICE/BUILD_ID/vendor/google_devices/* vendor/google_devices/</pre>
+                    </section>
 
-                    <p>Note that android-prepare-vendor is non-deterministic unless a timestamp parameter is
-                    passed with <code>--timestamp</code> (seconds since Epoch).</p>
+                    <section id="extracting-vendor-files-for-pixel-6-and-later">
+                        <h4><a href="#extracting-vendor-files-for-pixel-6-and-later">Pixel 6 and later</a></h4>
+
+                        <p>This is not yet fully published and documented since it uses a new
+                        system replacing android-prepare-vendor and is in flux with a lot of
+                        usability improvements needed. Instructions will be added in the near
+                        future.</p>
+                    </section>
                 </section>
 
                 <section id="building">
@@ -513,6 +555,9 @@ mv vendor/android-prepare-vendor/DEVICE/BUILD_ID/vendor/google_devices/* vendor/
                     <p>Next, start the build process with the <code>m</code> command:</p>
 
                     <pre>m target-files-package</pre>
+
+                    <p>For the Pixel 6 and Pixel 6 Pro, you currently need <code>m vendorbootimage
+                    target-files-package</code> instead of <code>target-files-package</code>.</p>
 
                     <p>The <code>-j</code> parameter can be passed to <code>m</code> to set a specific
                     number of jobs such as <code>-j4</code> to use 4 jobs. By default, the build system
@@ -570,11 +615,11 @@ mv vendor/android-prepare-vendor/DEVICE/BUILD_ID/vendor/google_devices/* vendor/
                     <p>The encryption passphrase for all the keys generated for a device needs to
                     match for compatibility with the GrapheneOS scripts.</p>
 
-                    <p>To generate keys for sunfish (you should use unique keys per device
+                    <p>To generate keys for redfin (you should use unique keys per device
                     variant):</p>
 
-                    <pre>mkdir -p keys/sunfish
-cd keys/sunfish
+                    <pre>mkdir -p keys/redfin
+cd keys/redfin
 ../../development/tools/make_key releasekey '/CN=GrapheneOS/'
 ../../development/tools/make_key platform '/CN=GrapheneOS/'
 ../../development/tools/make_key shared '/CN=GrapheneOS/'
@@ -589,7 +634,7 @@ cd ../..</pre>
 
                     <p>Generate a signify key for signing factory images:</p>
 
-                    <pre>signify -G -n -p keys/sunfish/factory.pub -s keys/sunfish/factory.sec</pre>
+                    <pre>signify -G -n -p keys/redfin/factory.pub -s keys/redfin/factory.sec</pre>
 
                     <p>Remove the <code>-n</code> switch to set a passphrase. The <code>signify</code>
                     tool doesn't provide a way to change the passphrase without generating a new key, so
@@ -604,7 +649,7 @@ cd ../..</pre>
                         <p>You can (re-)encrypt your signing keys using the <code>encrypt_keys</code> script,
                         which will prompt for the old passphrase (if any) and new passphrase:</p>
 
-                        <pre>script/encrypt_keys.sh keys/sunfish</pre>
+                        <pre>script/encrypt_keys.sh keys/redfin</pre>
 
                         <p>The <code>script/decrypt_keys.sh</code> script can be used to remove encryption,
                         which is not recommended. The script exists primarily for internal usage to decrypt
@@ -614,26 +659,28 @@ cd ../..</pre>
                     <section id="enabling-updatable-apex-components">
                         <h4><a href="#enabling-updatable-apex-components">Enabling updatable APEX components</a></h4>
 
-                        <p>GrapheneOS disables updatable APEX components for the officially supported devices
-                        and targets inheriting from the mainline target, so APEX signing keys are not needed
-                        and this section can be ignored for unmodified builds.</p>
+                        <p>GrapheneOS uses the <code>TARGET_FLATTEN_APEX := true</code> format to
+                        include APEX components as part of the base OS and disables support for
+                        out-of-band APEX component updates. This reduces complexity and attack
+                        surface along with simplifying key management since there aren't a bunch
+                        of additional components to sign. GrapheneOS has no use for out-of-band
+                        updates to APEX components since we update the OS for each device and
+                        don't need partial out-of-band updates for portable components.</p>
 
-                        <p>GrapheneOS uses the <code>TARGET_FLATTEN_APEX := true</code> format to include APEX
-                        components as part of the base OS without supporting out-of-band updates.</p>
+                        <p>APEX components that aren't flattened are a signed APK (used to verify
+                        updates) with an embedded filesystem image signed with an AVB key (for
+                        verified boot). Our release signing scripts has support for signing
+                        non-flattened APEX components with the releasekey and AVB key for the
+                        device. This secures it but wouldn't be usable for shipping out-of-band
+                        updates to APEX components across multiple devices. You could switch to
+                        using a single shared APEX APK signing key and AVB signing key. You'll
+                        also need to add parameters for additional device-specific APEX components
+                        not included in our release signing script which was set up based on the
+                        Pixel 6 and Pixel 6 Pro.</p>
 
-                        <p><strong>If you don't disable updatable APEX packages, you need to generate an APK and
-                        AVB key for each APEX component and extend the GrapheneOS release.sh script to pass
-                        the appropriate parameters to replace the APK and AVB keys for each APEX
-                        component.</strong></p>
-
-                        <p>APEX components that are not flattened are a signed APK (used to verify updates)
-                        with an embedded filesystem image signed with an AVB key (for verified boot). Each
-                        APEX package must have a unique set of keys. GrapheneOS has no use for these
-                        out-of-band updates at this time and flattening APEX components avoids needing a bunch
-                        of extra keys and complexity.</p>
-
-                        <p>For now, consult the upstream documentation on generating these keys. It will be
-                        covered here in the future.</p>
+                        <p>Consult the upstream documentation on generating these keys. It will
+                        likely be covered here in the future, especially if non-flattened APEX
+                        components become unavoidable.</p>
                     </section>
                 </section>
 
@@ -646,10 +693,10 @@ cd ../..</pre>
 
                     <p>Generate a signed release build with the release.sh script:</p>
 
-                    <pre>script/release.sh sunfish</pre>
+                    <pre>script/release.sh redfin</pre>
 
                     <p>The factory images and update package will be in
-                    <code>out/release-sunfish-$BUILD_NUMBER</code>. The update zip performs a full OS
+                    <code>out/release-redfin-$BUILD_NUMBER</code>. The update zip performs a full OS
                     installation so it can be used to update from any previous version. More efficient
                     incremental updates are used for official over-the-air GrapheneOS updates and can be
                     generated by keeping around past signed <code>target_files</code> zips and generating
@@ -692,34 +739,34 @@ cd ../..</pre>
                         delta updates by passing the device, source version build number and target version
                         build number. For example:</p>
 
-                        <pre>script/generate_delta.sh sunfish 2020.12.12.03 2021.01.05.03</pre>
+                        <pre>script/generate_delta.sh redfin 2021102503 2021102613</pre>
 
                         <p>The script assumes that the releases are organized in the following directory
                         structure:</p>
 
                         <pre>releases
-├── 2020.12.12.03
-│   └── release-sunfish-2020.12.12.03
+├── 2021102503
+│   └── release-redfin-2021102503
 │       ├── otatools
-│       ├── sunfish-beta
-│       ├── sunfish-factory-2020.12.12.03.zip
-│       ├── sunfish-factory-2020.12.12.03.zip.sig
-│       ├── sunfish-img-2020.12.12.03.zip
-│       ├── sunfish-ota_update-2020.12.12.03.zip
-│       ├── sunfish-stable
-│       ├── sunfish-target_files-2020.12.12.03.zip
-│       └── sunfish-testing
-└── 2021.01.05.03
-    └── release-sunfish-2021.01.05.03
+│       ├── redfin-beta
+│       ├── redfin-factory-2021102503.zip
+│       ├── redfin-factory-2021102503.zip.sig
+│       ├── redfin-img-2021102503.zip
+│       ├── redfin-ota_update-2021102503.zip
+│       ├── redfin-stable
+│       ├── redfin-target_files-2021102503.zip
+│       └── redfin-testing
+└── 2021102613
+    └── release-redfin-2021102613
         ├── otatools
-        ├── sunfish-beta
-        ├── sunfish-factory-2021.01.05.03.zip
-        ├── sunfish-factory-2021.01.05.03.zip.sig
-        ├── sunfish-img-2021.01.05.03.zip
-        ├── sunfish-ota_update-2021.01.05.03.zip
-        ├── sunfish-stable
-        ├── sunfish-target_files-2021.01.05.03.zip
-        └── sunfish-testing</pre>
+        ├── redfin-beta
+        ├── redfin-factory-2021102613.zip
+        ├── redfin-factory-2021102613.zip.sig
+        ├── redfin-img-2021102613.zip
+        ├── redfin-ota_update-2021102613.zip
+        ├── redfin-stable
+        ├── redfin-target_files-2021102613.zip
+        └── redfin-testing</pre>
 
                         <p>Incremental updates are uploaded alongside the update packages and update metadata
                         on the static web server used as an update server. The update client will
@@ -900,13 +947,14 @@ $DEVICE-stable</pre>
                 quite out-of-date and should be avoided. To set up a minimal SDK installation at
                 <code>~/android/sdk</code> without Android Studio:</p>
 
-                <pre>mkdir -p ~/android/sdk/cmdline-tools
-cd ~/android/sdk/cmdline-tools
-curl -O https://dl.google.com/android/repository/commandlinetools-linux-6514223_latest.zip
-echo 'ef319a5afdb41822cb1c88d93bc7c23b0af4fc670abca89ff0346ee6688da797  commandlinetools-linux-6514223_latest.zip' | sha256sum -c
-unzip commandlinetools-linux-6514223_latest.zip
-rm commandlinetools-linux-6514223_latest.zip
-mv tools latest</pre>
+                <pre>mkdir -p ~/android/sdk/bootstrap
+cd ~/android/sdk/bootstrap
+curl -O https://dl.google.com/android/repository/commandlinetools-linux-7583922_latest.zip
+echo '124f2d5115eee365df6cf3228ffbca6fc3911d16f8025bebd5b1c6e2fcfa7faf  commandlinetools-linux-7583922_latest.zip' | sha256sum -c
+unzip commandlinetools-linux-7583922_latest.zip
+cmdline-tools/bin/sdkmanager 'cmdline-tools;latest' --sdk_root=$HOME/android/sdk
+cd ..
+rm -r bootstrap</pre>
 
                 <p>Set <code>ANDROID_HOME</code> to point at the SDK installation in your current
                 shell and shell profile configuration. You also need to add the
@@ -914,10 +962,6 @@ mv tools latest</pre>
 
                 <pre>export ANDROID_HOME="$HOME/android/sdk"
 export PATH="$HOME/android/sdk/cmdline-tools/latest/bin:$PATH"</pre>
-
-                <p>Make <code>cmdline-tools</code> responsible for updating itself:</p>
-
-                <pre>sdkmanager 'cmdline-tools;latest'</pre>
 
                 <p>Install platform-tools for tools like adb and fastboot:</p>
 
@@ -930,11 +974,11 @@ export PATH="$HOME/android/sdk/cmdline-tools/latest/bin:$PATH"</pre>
                 <p>For running the Compatibility Test Suite you'll also need the build-tools for
                 aapt:</p>
 
-                <pre>sdkmanager 'build-tools;30.0.2'</pre>
+                <pre>sdkmanager 'build-tools;31.0.0'</pre>
 
                 <p>Add the <code>build-tools</code> executables to your <code>PATH</code>:</p>
 
-                <pre>export PATH="$HOME/android/sdk/build-tools/30.0.2:$PATH"</pre>
+                <pre>export PATH="$HOME/android/sdk/build-tools/31.0.0:$PATH"</pre>
 
                 <p>For working with native code, you need the NDK:</p>
 
@@ -970,6 +1014,18 @@ mv android-studio studio</pre>
                 <p>You can start it with <code>studio.sh</code>.</p>
             </article>
 
+            <article id="updating-gradle-and-gradle-wrapper-for-standalone-apps">
+                <h2><a href="#updating-gradle-and-gradle-wrapper-for-standalone-apps">Updating Gradle and Gradle wrapper for standalone apps</a></h2>
+
+                <p>Obtain the latest Gradle version and binary-only zip checksum from
+                <a href="https://gradle.org/release-checksums/">the Gradle releases page</a>.</p>
+
+                <p>Use the gradle wrapper script to update Gradle to the latest version. You should run this twice rather than only once to upgrade the Gradle wrapper with the new Gradle version. For example, with Gradle 7.3:</p>
+
+                <pre>./gradlew wrapper --gradle-version=7.3 --gradle-distribution-sha256-sum=de8f52ad49bdc759164f72439a3bf56ddb1589c4cde802d3cec7d6ad0e0ee410
+./gradlew wrapper --gradle-version=7.3 --gradle-distribution-sha256-sum=de8f52ad49bdc759164f72439a3bf56ddb1589c4cde802d3cec7d6ad0e0ee410</pre>
+            </article>
+
             <article id="testing">
                 <h2><a href="#testing">Testing</a></h2>
 
@@ -996,25 +1052,25 @@ mv android-studio studio</pre>
                         <p>Official releases of the CTS can be downloaded from
                         <a href="https://source.android.com/compatibility/cts/downloads">the Compatibility
                         Suite Downloads page</a>. You should download the CTS for the relevant release
-                        (Android 11) and architecture (ARM). There's a separate zip for the main CTS, the
+                        (Android 12) and architecture (ARM). There's a separate zip for the main CTS, the
                         manual portion (CTS Verifier) and the CTS for Instant Apps. The latest release of the
                         CTS Media Files also needs to be downloaded from that section.</p>
 
                         <pre>mkdir -p ~/android/cts/{arm,x86}
 cd ~/android/cts/arm
-curl -O https://dl.google.com/dl/android/cts/android-cts-11_r4-linux_x86-arm.zip
-unzip android-cts-11_r4-linux_x86-arm.zip
-rm android-cts-11_r4-linux_x86-arm.zip
-curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-11_r4-linux_x86-arm.zip
-unzip android-cts-verifier-11_r4-linux_x86-arm.zip
-rm android-cts-verifier-11_r4-linux_x86-arm.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-12_r1-linux_x86-arm.zip
+unzip android-cts-12_r1-linux_x86-arm.zip
+rm android-cts-12_r1-linux_x86-arm.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-12_r1-linux_x86-arm.zip
+unzip android-cts-verifier-12_r1-linux_x86-arm.zip
+rm android-cts-verifier-12_r1-linux_x86-arm.zip
 cd ~/android/cts/x86
-curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-11_r4-linux_x86-x86.zip
-unzip android-cts-verifier-11_r4-linux_x86-x86.zip
-rm android-cts-verifier-11_r4-linux_x86-x86.zip
-curl -O https://dl.google.com/dl/android/cts/android-cts-11_r4-linux_x86-x86.zip
-unzip android-cts-11_r4-linux_x86-x86.zip
-rm android-cts-11_r4-linux_x86-x86.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-verifier-12_r1-linux_x86-x86.zip
+unzip android-cts-verifier-12_r1-linux_x86-x86.zip
+rm android-cts-verifier-12_r1-linux_x86-x86.zip
+curl -O https://dl.google.com/dl/android/cts/android-cts-12_r1-linux_x86-x86.zip
+unzip android-cts-12_r1-linux_x86-x86.zip
+rm android-cts-12_r1-linux_x86-x86.zip
 cd ~/android/cts
 curl -O https://dl.google.com/dl/android/cts/android-cts-media-1.5.zip
 unzip android-cts-media-1.5.zip
@@ -1298,7 +1354,7 @@ rm android-cts-media-1.5.zip</pre>
             </article>
         </main>
         <footer>
-            <a href="/"><img src="/mask-icon.svg" width="512" height="512" alt=""/>GrapheneOS</a>
+            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
             <ul id="social">
                 <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
                 <li><a href="https://github.com/GrapheneOS">GitHub</a></li>

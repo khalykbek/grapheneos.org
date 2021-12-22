@@ -5,6 +5,7 @@
         <title>Features overview | GrapheneOS</title>
         <meta name="description" content="Overview of GrapheneOS features differentiating it from the Android Open Source Project (AOSP)."/>
         <meta name="theme-color" content="#212121"/>
+        <meta name="color-scheme" content="dark light"/>
         <meta name="msapplication-TileColor" content="#ffffff"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="twitter:site" content="@GrapheneOS"/>
@@ -21,9 +22,9 @@
         <link rel="canonical" href="https://grapheneos.org/features"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="/mask-icon.svg" color="#1a1a1a"/>
+        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        <link rel="stylesheet" href="/main.css"/>
+        {{css|/main.css}}
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
     </head>
@@ -31,7 +32,7 @@
         <header>
             <nav id="site-menu">
                 <ul>
-                    <li><a href="/"><img src="/mask-icon.svg" alt=""/>GrapheneOS</a></li>
+                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
                     <li aria-current="page"><a href="/features">Features</a></li>
                     <li><a href="/install/">Install</a></li>
                     <li><a href="/build">Build</a></li>
@@ -74,7 +75,7 @@
             doing it robustly and securely.</p>
 
             <p>This page provides an overview of currently implemented features differentiating
-            GrapheneOS from AOSP. It doesn't document our many historical features that are not no
+            GrapheneOS from AOSP. It doesn't document our many historical features that are no
             longer included for one reason or another. Many of our features were implemented in
             AOSP, Linux, <a href="https://llvm.org/">LLVM</a> and other projects GrapheneOS is
             based on and those aren't listed here. In many cases, we've been involved in getting
@@ -93,7 +94,7 @@
             <section id="grapheneos">
                 <h2><a href="#grapheneos">GrapheneOS</a></h2>
 
-                <p>Partial list of GrapheneOS features beyond what AOSP 11 provides:</p>
+                <p>Partial list of GrapheneOS features beyond what AOSP 12 provides:</p>
 
                 <ul>
                     <li>Hardened app runtime</li>
@@ -186,30 +187,42 @@
                     stripping out unnecessary code, making more features optional and disabling
                     optional features by default (NFC, Bluetooth, etc.), when the screen is
                     locked (connecting new USB peripherals, camera access) and optionally after a
-                    timeout (Bluetooth)</li>
+                    timeout (Bluetooth, Wi-Fi)</li>
                     <li>Option to disable native debugging (ptrace) to reduce local attack surface
                     (still enabled by default for compatibility)</li>
                     <li>Low-level improvements to the <a href="/faq#encryption">filesystem-based
                     full disk encryption</a> used on modern Android</li>
+                    <li>Support creating up to 16 secondary user profiles (15 + guest) instead of
+                    only 4 (3 + guest).</li>
                     <li>Support for logging out of user profiles without needing a device manager:
                     makes them inactive so that they can't continue running code while using
                     another profile and purges the disk encryption keys (which are per-profile)
                     from memory and hardware registers</li>
-                    <li>Indicators for active camera and microphone usage are enabled by default
-                    alongside the traditional location indicator</li>
-                    <li>Support longer passwords by default (64 characters) without a device manager</li>
+                    <li>Option to enable automatically rebooting the device when no profile has
+                    been unlocked for the configured time period to put the device fully at rest
+                    again.</li>
+                    <li>Modern Microphone/Camera usage indicator UX is also used for Location.</li>
+                    <li>Improved user visibility into persistent firmware security through version
+                    and configuration verification with reporting of inconsistencies and debug
+                    features being enabled.</li>
+                    <li>Support for longer passwords by default (64 characters instead of 16)
+                    without requiring a device manager</li>
                     <li>Stricter implementation of the optional fingerprint unlock feature permitting
                     only 5 attempts rather than 20 before permanent lockout (our recommendation is
                     still keeping sensitive data in user profiles without fingerprint unlock)</li>
+                    <li>Support for using the fingerprint scanner only for authentication in apps
+                    and unlocking hardware keystore keys by toggling off support for unlocking.</li>
                     <li>PIN scrambling option</li>
                     <li><a href="/usage#lte-only-mode">LTE-only mode</a> to reduce cellular radio
-                    attack surface by disabling enormous amounts of legacy code</li>
+                    attack surface by disabling enormous amounts of both legacy code (2G, 3G) and
+                    bleeding edge code (5G)</li>
                     <li><a href="/usage#wifi-privacy-associated">Per-connection MAC randomization
                     option (enabled by default)</a> as a more private option than the standard
                     persistent per-network random MAC.</li>
                     <li>When the per-connection MAC randomization added by GrapheneOS is being
                     used, DHCP client state is flushed before reconnecting to a network to avoid
                     revealing that it's likely the same device as before.</li>
+                    <li>Improved IPv6 privacy addresses to prevent tracking across networks</li>
                     <li>Vanadium: hardened WebView and default browser — the WebView is what most
                     other apps use to handle web content, so you benefit from Vanadium in many apps
                     even if you choose another browser</li>
@@ -226,6 +239,9 @@
                     <li><a href="https://github.com/GrapheneOS/PdfViewer">PDF Viewer</a>: sandboxed,
                     hardened PDF viewer using HiDPI rendering with pinch to zoom, text selection,
                     etc.</li>
+                    <li><a href="/usage#grapheneos-camera-app">GrapheneOS Camera</a>: modern
+                    camera app with a great user interface and a focus on privacy and
+                    security.</li>
                     <li>Encrypted backups via integration of the
                     <a href="https://github.com/seedvault-app/seedvault">Seedvault app</a> with
                     support for local backups and any cloud storage provider with a storage provider
@@ -243,14 +259,18 @@
                     permission toggle is enhanced with a second layer of enforcement and proper
                     support for granting/revoking it on a per-profile basis.</li>
                     <li>Sensors permission toggle: disallow access to all other sensors not covered by
-                    existing Android permissions (enabled by default for compatibility)</li>
+                    existing Android permissions (Camera, Microphone, Body Sensors, Activity
+                    Recognition) including an accelerometer, gyroscope, compass, barometer,
+                    thermometer and any other sensors present on a given device. To avoid breaking
+                    compatibility with Android apps, the added permission is enabled by
+                    default.</li>
                     <li>Authenticated encryption for network time updates via a first party server to
                     prevent attackers from changing the time and enabling attacks based on bypassing
                     certificate / key expiry, etc.</li>
                     <li>Proper support for disabling network time updates rather than just not using
                     the results</li>
                     <li>Connectivity checks via a first party server with the option to revert to the
-                    standard checks</li>
+                    standard checks (to blend in) or to fully disable them</li>
                     <li>Hardened local build / signing infrastructure</li>
                     <li><a href="/usage#updates">Seamless automatic OS update system</a> that just
                     works and stays out of the way in the background without disrupting device
@@ -270,6 +290,9 @@
                     they avoid requiring invasive OS integration. Building privileged support for
                     Google services into the OS isn't something we're going to be doing, even if
                     that's partially open source like microG.</li>
+                    <li><a href="/usage#sandboxed-play-services">Compatibility layer for coercing
+                    user installed Google Play services into running as sandboxed apps without any
+                    special privileges.</a></li>
                     <li>Fixes for multiple serious vulnerabilities not yet fixed upstream due to a
                     flexible release cycle / process prioritizing security.</li>
                 </ul>
@@ -339,14 +362,14 @@
                     particular company</a></li>
                     <li><a href="/faq#privacy-policy">Strong privacy policies</a> across all our
                     software and services</li>
-                    <li><a href="/history/">Proven record</a> of the team standing up against
-                    attempts to compromise the integrity of the project and placing it above
-                    personal gain</li>
+                    <li><a href="/history/">Proven track record</a> of the team standing up
+                    against attempts to compromise the integrity of the project and placing it
+                    above personal gain</li>
                 </ul>
             </section>
         </main>
         <footer>
-            <a href="/"><img src="/mask-icon.svg" width="512" height="512" alt=""/>GrapheneOS</a>
+            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
             <ul id="social">
                 <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
                 <li><a href="https://github.com/GrapheneOS">GitHub</a></li>

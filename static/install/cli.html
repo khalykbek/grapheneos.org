@@ -5,6 +5,7 @@
         <title>CLI install guide | Install | GrapheneOS</title>
         <meta name="description" content="Command-line installation instructions for GrapheneOS, a security and privacy focused mobile OS with Android app compatibility."/>
         <meta name="theme-color" content="#212121"/>
+        <meta name="color-scheme" content="dark light"/>
         <meta name="msapplication-TileColor" content="#ffffff"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="twitter:site" content="@GrapheneOS"/>
@@ -21,18 +22,18 @@
         <link rel="canonical" href="https://grapheneos.org/install/cli"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="/mask-icon.svg" color="#1a1a1a"/>
+        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        <link rel="stylesheet" href="/main.css"/>
+        {{css|/main.css}}
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
-        <script type="module" src="/js/redirect.js"></script>
+        {{js|/js/redirect.js}}
     </head>
     <body>
         <header>
             <nav id="site-menu">
                 <ul>
-                    <li><a href="/"><img src="/mask-icon.svg" alt=""/>GrapheneOS</a></li>
+                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
                     <li><a href="/features">Features</a></li>
                     <li><a href="/install/">Install</a></li>
                     <li><a href="/build">Build</a></li>
@@ -133,9 +134,12 @@
 
                 <ul>
                     <li>Windows 10</li>
+                    <li>Windows 11</li>
                     <li>macOS Big Sur</li>
+                    <li>macOS Monterey</li>
                     <li>Arch Linux</li>
                     <li>Debian 10 (buster)</li>
+                    <li>Debian 11 (bullseye)</li>
                     <li>Ubuntu 20.04 LTS</li>
                     <li>Ubuntu 20.10</li>
                 </ul>
@@ -173,7 +177,7 @@
                 enabled.</p>
 
                 <p>Next, go to Settings ➔ System ➔ Advanced ➔ Developer options and toggle on the
-                'Enable OEM unlocking' setting. This requires internet access on devices with Google
+                'OEM unlocking' setting. This requires internet access on devices with Google
                 Play services as part of Factory Reset Protection (FRP) for anti-theft protection.</p>
             </section>
 
@@ -201,7 +205,7 @@
                 <p>You need an updated copy of the <code>fastboot</code> tool and the
                 directory containing it needs to be included in the <code>PATH</code>
                 environment variable. You can run <code>fastboot --version</code> to determine
-                the current version. It must be at least <code>29.0.6</code>. You can use a
+                the current version. It must be at least <code>31.0.3</code>. You can use a
                 distribution package for this, but most of them mistakenly package development
                 snapshots of fastboot, clobber the standard version scheme for platform-tools
                 (adb, fastboot, etc.) with their own scheme and don't keep it up-to-date
@@ -230,21 +234,21 @@
                     Ubuntu:</p>
 
                     <pre>sudo apt install libarchive-tools
-curl -O https://dl.google.com/android/repository/platform-tools_r31.0.2-linux.zip
-echo 'cdde800a61766679abc5771596225b4e0081d01b20ffea51bde26c488bcbc677  platform-tools_r31.0.2-linux.zip' | sha256sum -c
-bsdtar xvf platform-tools_r31.0.2-linux.zip</pre>
+curl -O https://dl.google.com/android/repository/platform-tools_r31.0.3-linux.zip
+echo 'e6cb61b92b5669ed6fd9645fad836d8f888321cd3098b75588a54679c204b7dc  platform-tools_r31.0.3-linux.zip' | sha256sum -c
+bsdtar xvf platform-tools_r31.0.3-linux.zip</pre>
 
                     <p>To download, verify and extract the standalone platform-tools on macOS:</p>
 
-                    <pre>curl -O https://dl.google.com/android/repository/d027ce0f9f214a4bd575a73786b44d8ccf7e7516.platform-tools_r31.0.2-darwin.zip
-echo 'SHA256 (d027ce0f9f214a4bd575a73786b44d8ccf7e7516.platform-tools_r31.0.2-darwin.zip) = ab9dbab873fff677deb2cfd95ea60b9295ebd53b58ec8533e9e1110b2451e540' | shasum -c
-tar xvf d027ce0f9f214a4bd575a73786b44d8ccf7e7516.platform-tools_r31.0.2-darwin.zip</pre>
+                    <pre>curl -O https://dl.google.com/android/repository/e8b2b4cbe47c728c1e54c5f524440b52d4e1a33c.platform-tools_r31.0.3-darwin.zip
+echo 'SHA256 (e8b2b4cbe47c728c1e54c5f524440b52d4e1a33c.platform-tools_r31.0.3-darwin.zip) = 773c08cfa31cec1bb4568ce5b374366e6310a5ffc21875024604a0f65bc831b1' | shasum -c
+tar xvf e8b2b4cbe47c728c1e54c5f524440b52d4e1a33c.platform-tools_r31.0.3-darwin.zip</pre>
 
                     <p>To download, verify and extract the standalone platform-tools on Windows:</p>
 
-                    <pre>curl -O https://dl.google.com/android/repository/platform-tools_r31.0.2-windows.zip
-(Get-FileHash platform-tools_r31.0.2-windows.zip).hash -eq "d560cb8ded83ae04763b94632673481f14843a5969256569623cfeac82db4ba5"
-tar xvf platform-tools_r31.0.2-windows.zip</pre>
+                    <pre>curl -O https://dl.google.com/android/repository/platform-tools_r31.0.3-windows.zip
+(Get-FileHash platform-tools_r31.0.3-windows.zip).hash -eq "0f4b8fdd26af2c3733539d6eebb3c2ed499ea1d4bb1f4e0ecc2d6016961a6e24"
+tar xvf platform-tools_r31.0.3-windows.zip</pre>
 
                     <p>Next, add the tools to your <code>PATH</code> in the current shell so they can be
                     used without referencing them by file path, enabling usage by the flashing script.</p>
@@ -270,7 +274,7 @@ tar xvf platform-tools_r31.0.2-windows.zip</pre>
                 <p>Example of the output after following the instructions above for the
                 standalone platform-tools:</p>
 
-                <pre>fastboot version 31.0.2-7242960
+                <pre>fastboot version 31.0.3-7562133
 Installed as /home/username/platform-tools/fastboot</pre>
             </section>
 
@@ -314,10 +318,19 @@ Installed as /home/username/platform-tools/fastboot</pre>
                 <p>Connect the phone to the computer. On Linux, you'll need to do this again if
                 you didn't have the udev rules set up when you connected it.</p>
 
-                <p>On Windows, you may need to install a driver for fastboot now: In Windows Update,
-                click Check for updates. After that there might be a link "View optional updates."
-                Download and install any driver updates. If there are no optional updates, simply
-                continue with the installation instructions.</p>
+                <p>On Windows, you need to install a driver for fastboot if you don't already have
+                it. No driver is needed on other operating systems. You can obtain the driver from
+                Windows Update which will detect it as an optional update when the device is
+                booted into the bootloader interface and connected to the computer. Open Windows
+                Update, run a check for updates and then open the "View optional updates"
+                interface. Install the driver for the Android bootloader interface as an optional
+                update.</p>
+
+                <p>An alternative approach to obtaining the Windows fastboot driver is to obtain
+                the <a href="https://developer.android.com/studio/run/win-usb">latest driver for
+                Pixels</a> from Google and then
+                <a href="https://developer.android.com/studio/run/oem-usb#InstallingDriver">manually
+                install it with the Windows Device Manager</a>.</p>
             </section>
 
             <section id="unlocking-the-bootloader">
@@ -385,17 +398,17 @@ RWQZW9NItOuQYJ86EooQBxScfclrWiieJtAO9GpnfEjKbCO/3FriLGX3</pre>
                 When the current signing key is replaced, the new key will be signed with it.</p>
 
                 <p>Download the factory images for the device from <a href="/releases">the releases
-                page</a>. For example, to download the 2021.06.09.13 release for a device with the
+                page</a>. For example, to download the 2021110122 release for a device with the
                 codename <code>DEVICE_NAME</code>:</p>
 
-                <pre>curl -O https://releases.grapheneos.org/DEVICE_NAME-factory-2021.06.09.13.zip
-curl -O https://releases.grapheneos.org/DEVICE_NAME-factory-2021.06.09.13.zip.sig</pre>
+                <pre>curl -O https://releases.grapheneos.org/DEVICE_NAME-factory-2021110122.zip
+curl -O https://releases.grapheneos.org/DEVICE_NAME-factory-2021110122.zip.sig</pre>
 
                 <p>Verify the factory images using the signature if you were able to obtain
                 <code>signify</code> from trusted package repositories (see above), otherwise
                 continue on to the next section without this:</p>
 
-                <pre>signify -Cqp factory.pub -x DEVICE_NAME-factory-2021.06.09.13.zip.sig &amp;&amp; echo verified</pre>
+                <pre>signify -Cqp factory.pub -x DEVICE_NAME-factory-2021110122.zip.sig &amp;&amp; echo verified</pre>
 
                 <p>This will output <code>verified</code> if verification is successful. If something
                 goes wrong, it will output an error message rather than <code>verified</code>.</p>
@@ -411,15 +424,15 @@ curl -O https://releases.grapheneos.org/DEVICE_NAME-factory-2021.06.09.13.zip.si
 
                 <p>On Linux:</p>
 
-                <pre>bsdtar xvf DEVICE_NAME-factory-2021.06.09.13.zip</pre>
+                <pre>bsdtar xvf DEVICE_NAME-factory-2021110122.zip</pre>
 
                 <p>On macOS and Windows:</p>
 
-                <pre>tar xvf DEVICE_NAME-factory-2021.06.09.13.zip</pre>
+                <pre>tar xvf DEVICE_NAME-factory-2021110122.zip</pre>
 
                 <p>Move into the directory:</p>
 
-                <pre>cd DEVICE_NAME-factory-2021.06.09.13</pre>
+                <pre>cd DEVICE_NAME-factory-2021110122</pre>
 
                 <p>Flash the images with the flash-all script in the directory.</p>
 
@@ -522,7 +535,7 @@ curl -O https://releases.grapheneos.org/DEVICE_NAME-factory-2021.06.09.13.zip.si
                     for a guide.</p>
 
                     <p>After the initial verification, which results in pairing, performing verification
-                    against between the same Auditor and Auditee (as long as the app data hasn't been
+                    again between the same Auditor and Auditee (as long as the app data hasn't been
                     cleared) will provide strong validation of the identity and integrity of the
                     device. That makes it best to get the pairing done right after installation. You can
                     also consider setting up the optional remote attestation service.</p>
@@ -554,7 +567,7 @@ curl -O https://releases.grapheneos.org/DEVICE_NAME-factory-2021.06.09.13.zip.si
             </section>
         </main>
         <footer>
-            <a href="/"><img src="/mask-icon.svg" width="512" height="512" alt=""/>GrapheneOS</a>
+            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
             <ul id="social">
                 <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
                 <li><a href="https://github.com/GrapheneOS">GitHub</a></li>

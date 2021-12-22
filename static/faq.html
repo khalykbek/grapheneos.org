@@ -5,6 +5,7 @@
         <title>Frequently Asked Questions | GrapheneOS</title>
         <meta name="description" content="Answers to frequently asked questions about GrapheneOS."/>
         <meta name="theme-color" content="#212121"/>
+        <meta name="color-scheme" content="dark light"/>
         <meta name="msapplication-TileColor" content="#ffffff"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="twitter:site" content="@GrapheneOS"/>
@@ -21,18 +22,18 @@
         <link rel="canonical" href="https://grapheneos.org/faq"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="/mask-icon.svg" color="#1a1a1a"/>
+        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        <link rel="stylesheet" href="/main.css"/>
+        {{css|/main.css}}
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
-        <script type="module" src="/js/redirect.js"></script>
+        {{js|/js/redirect.js}}
     </head>
     <body>
         <header>
             <nav id="site-menu">
                 <ul>
-                    <li><a href="/"><img src="/mask-icon.svg" alt=""/>GrapheneOS</a></li>
+                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
                     <li><a href="/features">Features</a></li>
                     <li><a href="/install/">Install</a></li>
                     <li><a href="/build">Build</a></li>
@@ -140,6 +141,9 @@
                     <p>GrapheneOS has official production support for the following devices:</p>
 
                     <ul>
+                        <li>Pixel 6 Pro (raven)</li>
+                        <li>Pixel 6 (oriole)</li>
+                        <li>Pixel 5a (barbet)</li>
                         <li>Pixel 5 (redfin)</li>
                         <li>Pixel 4a (5G) (bramble)</li>
                         <li>Pixel 4a (sunfish)</li>
@@ -147,9 +151,18 @@
                         <li>Pixel 4 (flame)</li>
                         <li>Pixel 3a XL (bonito)</li>
                         <li>Pixel 3a (sargo)</li>
+                    </ul>
+
+                    <p>The following devices are end-of-life, no longer receive full security
+                    updates and are supported via extended support releases of GrapheneOS:</p>
+
+                    <ul>
                         <li>Pixel 3 XL (crosshatch)</li>
                         <li>Pixel 3 (blueline)</li>
                     </ul>
+
+                    <p>We provide extended support releases as a stopgap for users to transition
+                    to the far more secure current generation devices.</p>
 
                     <p>The release tags for these devices have official builds and updates
                     available. These devices meet the stringent privacy and security standards and
@@ -190,32 +203,41 @@
                 <article id="recommended-devices">
                     <h3><a href="#recommended-devices">Which devices are recommended?</a></h3>
 
-                    <p>The following devices offer the best hardware, firmware and software
-                    security along with the longest future support time and are strongly
-                    recommended:</p>
-
-                    <ul>
-                        <li>Pixel 5 (redfin)</li>
-                        <li>Pixel 4a (5G) (bramble)</li>
-                        <li>Pixel 4a (sunfish)</li>
-                    </ul>
-
-                    <p>The Pixel 5 and Pixel 4a (5G) will likely be supported for at least a bit
-                    longer than the Pixel 4a. We strongly recommend against purchasing older
+                    <p>The Pixel 6 and Pixel 6 Pro are flagship phones with much nicer hardware
+                    than previous generation devices (cameras, CPU, GPU, display, battery), 5
+                    years of guaranteed full security updates / support and substantial security
+                    improvements. We strongly recommend buying one of these latest generation
                     devices.</p>
 
-                    <p>The Pixel 4a is a budget device meeting the same security standards as the more
-                    expensive flagship devices. You can read more on the differences between the hardware
-                    elsewhere. Unlike the Pixel 3a, the Pixel 4a has a proper SSD which provides a much
-                    better experience with the GrapheneOS exec-based spawning security feature.</p>
+                    <p>The cheaper Pixel 6 has extremely competitive pricing for the flagship
+                    level hardware especially with the guaranteed long term support. Pixel 6 Pro
+                    has 50% more memory (12GB instead of 8GB), a higher end screen, a 3rd rear
+                    camera with 4x optical zoom and a higher end front camera. Both devices have
+                    the same SoC (CPU, GPU, etc.) and the same main + ultrawide rear cameras. The
+                    Pixel 6 is quite large and the Pixel 6 Pro is larger.</p>
 
-                    <p>The Pixel 4 and Pixel 4 XL have comparable security but won't be supported
-                    as long. On the Pixel 4 and Pixel 4 XL, support for fingerprint unlock as a
-                    secondary unlock mechanism was replaced with IR-based 3D facial scanning.
-                    GrapheneOS plans to extend secondary unlock support with the option of
-                    2-factor authentication using a secondary PIN or passphrase required for
-                    fingerprint / face unlock. The Pixel 4a, Pixel 4a (5G) and Pixel 5 moved back
-                    to using a fingerprint scanner instead of face unlock.</p>
+                    <p>The following devices are reasonable choices if for some reason you can't
+                    obtain a Pixel 6 or Pixel 6 Pro:</p>
+
+                    <ul>
+                        <li>Pixel 5a (barbet)</li>
+                        <li>Pixel 5 (redfin)</li>
+                        <li>Pixel 4a (5G) (bramble)</li>
+                    </ul>
+
+                    <p>The Pixel 5a, Pixel 5 and Pixel 4a (5G) are 5th generation Pixels sharing
+                    the same mid-range 2020 SoC. These devices have around 2-3 years before their
+                    end-of-life date after they receive Android 14. It's likely but not guaranteed
+                    that the Pixel 5 and 4a (5G) will have their full security support extended to
+                    match the Pixel 5a since they use the same platform.</p>
+
+                    <p>Despite the misleading name, the Pixel 4a (5G) is not a variant of the 4th
+                    generation Pixel 4a which has an older mid-range 2019 SoC. The Pixel 4a was
+                    released about 2 months before the first 5th generation devices but those are
+                    likely to be supported more than the 3 year minimum while the Pixel 4a is very
+                    unlikely to receive longer support due to the older SoC. GrapheneOS extended
+                    support for 4th generation devices will end with the release of Android 14 so
+                    there won't be much leeway provided by it for the Pixel 4a.</p>
                 </article>
 
                 <article id="future-devices">
@@ -313,21 +335,11 @@
                 <article id="which-legacy-devices">
                     <h3><a href="#which-legacy-devices">Which devices did GrapheneOS support in the past?</a></h3>
 
-                    <p>The following devices are end-of-life, no longer receive full security
-                    updates and are supported only via extended support releases of GrapheneOS
-                    separate from the official GrapheneOS releases:</p>
+                    <p>The following devices are no longer supported:</p>
 
                     <ul>
                         <li>Pixel 2 XL (taimen)</li>
                         <li>Pixel 2 (walleye)</li>
-                    </ul>
-
-                    <p>We provide extended support releases as a stopgap for users to transition
-                    to the far more secure current generation devices.</p>
-
-                    <p>The following devices are no longer supported at all:</p>
-
-                    <ul>
                         <li>Pixel XL (marlin)</li>
                         <li>Pixel (sailfish)</li>
                         <li>Nexus 6P (angler)</li>
@@ -486,6 +498,10 @@
                     slightly less strict implementation of this feature. It provided a toggle for users to
                     whitelist clipboard managers, which is no longer needed now that keyboards are
                     expected to provide it.</p>
+
+                    <p>As of Android 12, the user is notified when an app reads clipboard content
+                    which was set by a different app. This notice is enabled by default and can be
+                    toggled under Settings ➔ Privacy ➔ Show clipboard access.</p>
                 </article>
 
                 <article id="hardware-identifiers">
@@ -503,7 +519,7 @@
                     around for compatibility. It used to need more extensive changes such as disallowing
                     access to the serial number but those restrictions are now standard.</p>
 
-                    <p>Apps can determine the model of the device (such as it being a Pixel 4) either
+                    <p>Apps can determine the model of the device (such as it being a Pixel 5) either
                     directly or indirectly through the properties of the hardware and software. There
                     isn't a way to avoid this short of the OS supporting running apps in a virtual machine
                     with limited functionality and hardware acceleration. Hiding the CPU/SoC model would
@@ -737,7 +753,18 @@
                             <p>No query / data is sent to the servers and the response is unused beyond
                             checking the response code.</p>
 
-                            <p>By default, the GrapheneOS connectivity check server is used via the
+                            <p>Connectivity checks are performed for each network connection and
+                            for VPN connections on top of those. This allows the OS to choose the
+                            right underlying network for a VPN and to handle many types of captive
+                            portals without the user turning off their VPN.</p>
+
+                            <p>You can change the connectivity check URLs via the Settings ➔
+                            Network &amp; internet ➔ Advanced ➔ Internet connectivity check
+                            setting. At the moment, it can be toggled between the GrapheneOS
+                            servers (default), the standard Google servers used by billions of
+                            other Android devices or disabled.</p>
+
+                            <p>By default, the GrapheneOS connectivity check servers are used via the
                             following URLs:</p>
 
                             <ul>
@@ -747,13 +774,10 @@
                                 <li>HTTP other fallback: http://grapheneos.online/generate_204</li>
                             </ul>
 
-                            <p>You can change the connectivity check URLs via the Settings ➔ Network &amp;
-                            internet ➔ Advanced ➔ Internet connectivity check setting. At the moment, it
-                            can be toggled between the GrapheneOS server and the standard Google servers
-                            used by billions of other Android devices. This can be used to blend in with
-                            other Android devices, both with and without Play services. Changing this to
-                            the Standard (Google) mode will use the same URLs used by AOSP and the stock
-                            OS along with the vast majority of other devices:</p>
+                            <p>Changing this to the Standard (Google) mode will use the same URLs
+                            used by AOSP and the stock OS along with the vast majority of other
+                            devices, blending in with billions of other Android devices both with
+                            and without Play services:</p>
 
                             <ul>
                                 <li>HTTPS: https://www.google.com/generate_204</li>
@@ -761,6 +785,12 @@
                                 <li>HTTP fallback: http://www.google.com/gen_204</li>
                                 <li>HTTP other fallback: http://play.googleapis.com/generate_204</li>
                             </ul>
+
+                            <p>GrapheneOS also adds the ability to fully disable the connectivity
+                            checks. This results in the OS no longer handling captive portals
+                            itself, not falling back to other networks when some don't have
+                            internet access and not being able to delay scheduled jobs depending
+                            on internet access until it becomes available.</p>
                         </li>
                         <li>
                             <p>DNS connectivity and functionality tests</p>
@@ -832,7 +862,7 @@
                     provide DNS servers in order to fingerprint clients based on what they use as
                     the fallback so it's important for it to be consistent across each install.
                     GrapheneOS replaces Google Public DNS with
-                    <a href="https://developers.cloudflare.com/1.1.1.1/what-is-1.1.1.1/">Cloudflare
+                    <a href="https://developers.cloudflare.com/1.1.1.1/faq">Cloudflare
                     DNS</a> for the fallback DNS servers due to the superior privacy policy and
                     widespread usage including as the fallback DNS servers in other Android-based
                     operating systems. We're considering hosting our own servers and offering a
@@ -919,19 +949,19 @@
                 <article id="vpn-support">
                     <h3><a href="#vpn-support">What kind of VPN and Tor support is available?</a></h3>
 
-                    <p>VPNs can be configured under Settings ➔ Network &amp; Internet ➔ Advanced ➔ VPN.
-                    Support for the following protocols is included: PPTP (insecure, obsolete), L2TP/IPSec
-                    PSK, L2TP/IPSec RSA, IPSec Xauth PSK, IPSec Xauth RSA and IPSec Hybrid RSA. Apps can
-                    also provide userspace VPN implementations and the following open source apps are
-                    recommended: Orbot (Tor), WireGuard, OpenVPN for Android and the Private Internet
-                    Access client (OpenVPN).</p>
+                    <p>VPNs can be configured under Settings ➔ Network &amp; Internet ➔ Advanced ➔
+                    VPN. Support for the following protocols is included: IKEv2/IPSec MSCHAPv2,
+                    IKEv2/IPSec PSK and IKEv2/IPSec RSA. Apps can also provide userspace VPN
+                    implementations and the following open source apps are recommended: Orbot
+                    (Tor), WireGuard and OpenVPN for Android.</p>
 
-                    <p>VPN configurations created with the built-in support can be set as the always-on
-                    VPN in the configuration panel. This will keep the VPN running, reconnecting as
-                    necessary and will force all connections through them. An app providing a VPN service
-                    can also be set as the always-on VPN via the entry in the Settings page. For app-based
-                    VPN implementations, there's also an additional "Block connections without VPN" toggle
-                    which is needed to prevent leaks when the app's VPN service isn't running.</p>
+                    <p>VPN configurations created with the built-in support can be set as the
+                    always-on VPN in the configuration panel. This will keep the VPN running,
+                    reconnecting as necessary and will force all connections through them. An app
+                    providing a VPN service can also be set as the always-on VPN via the entry in
+                    the Settings page. For app-based VPN implementations, there's also an
+                    additional "Block connections without VPN" toggle which is needed to prevent
+                    leaks when the app's VPN service isn't running.</p>
                 </article>
 
                 <article id="network-monitoring">
@@ -1074,10 +1104,10 @@
                     Android implementations often lack support for background notifications due to
                     only bothering to implement support for it via Google Play services.</p>
 
-                    <p>Most apps that able to run without Google Play services will have working
-                    notifications when they're in the foreground. Unfortunately, many apps don't
-                    implement a service to continue receiving events from their server in the
-                    background. On the stock OS, they rely on receiving events through Google
+                    <p>Most apps that are able to run without Google Play services will have
+                    working notifications when they're in the foreground. Unfortunately, many apps
+                    don't implement a service to continue receiving events from their server in
+                    the background. On the stock OS, they rely on receiving events through Google
                     servers via Firebase Cloud Messaging (FCM) in the background and sometimes
                     even in the foreground, although it doesn't have good reliability/latency.</p>
 
@@ -1103,7 +1133,7 @@
                     <p>In order to properly implement either push messaging or frequent polling
                     themselves, an app needs to run a foreground service. This is displayed as a
                     persistent notification. It will normally be marked as a silent notification
-                    with the lowest possible priority, so it will be collapsed as the bottom and
+                    with the lowest possible priority, so it will be collapsed at the bottom and
                     won't show up as an icon in the status bar or on the lockscreen. A battery
                     optimization exception is also needed for the app to bypass device idle states
                     and run while the device is idle. If you can tolerate delays while the device
@@ -1148,12 +1178,15 @@
             <article id="google-services">
                 <h2><a href="#google-services">Will GrapheneOS include support for Google services?</a></h2>
 
-                <p>GrapheneOS will never include either Google Play services or another
-                implementation of Google services like microG. Those are not included in the
-                Android Open Source Project and are not required for baseline Android
-                compatibility. Apps designed to run on Android rather than only Android with
-                bundled Google apps and services already work on GrapheneOS, so a huge number of
-                both open and closed source apps are already available for it.</p>
+                <p>Like the Android Open Source Project, GrapheneOS doesn't include Google apps
+                and services. They won't ever be bundled with the OS. GrapheneOS includes
+                compatibility layer for sandboxed Play services to make user installed Play
+                services apps able to run as fully sandboxed, unprivileged apps. This is <a
+                href="https://grapheneos.org/usage#sandboxed-play-services">documented as
+                part of the usage guide</a>. Many apps work perfectly without Play services and
+                many others only depend on it for a subset of their functionality. Users can
+                choose to install Play services in specific profile(s) to control which apps can
+                use it.</p>
 
                 <p>AOSP APIs not tied to Google but that are typically provided via Play services
                 will continue to be implemented using open source providers like the Seedvault
@@ -1163,35 +1196,12 @@
                 be implementing these via a Google service compatibility layer because these APIs
                 are in no way inherently tied to Google services.</p>
 
-                <p>We're developing a minimal Play services compatibility layer as a regular app
-                without any special privileges. The app will provide a stub implementation of the
-                entire Play services API pretending the servers are down and the functionality is
-                unavailable. It will always be disabled by default since apps will detect Play
-                services is available and will try to use it rather than alternatives. As an
-                example, Signal would try to use a non-functional FCM implementation rather than
-                their own server push implementation. The intention is that users will only enable
-                this in profiles dedicated to running apps with an unnecessary hard dependency on
-                Play services. We'll likely prevent enabling it in the owner profile to help users
-                avoid those kinds of pitfalls.</p>
-
-                <p>Our Play services app won't have any special privileges or whitelisting in the
-                OS like Play services or microG. There will be no support for bypassing arbitrary
-                signature checks like the microG signature spoofing patch since it substantially
-                compromises the OS security model and breaks other security features like verified
-                boot. Instead, our app will be signed with a GrapheneOS Play services key and the
-                only OS support for the app will be presenting the GrapheneOS Play services key as
-                the Google Play services key.</p>
-
                 <p>Ideally, Google themselves would support installing the official Play services
-                as a regular Android app, rather than taking the monopolistic approach of forcing
-                it to be bundled into the OS in a deeply integrated way with special privileged
-                permissions and capabilities unavailable to other service providers competing with
-                them. Even though we would never include it in GrapheneOS, it would be great if
-                users did have the option to install Play services as a regular app in specific
-                profiles. It's unfortunate that the approach taken to it is so deeply integrated
-                and anti-competitive. GrapheneOS users can still choose to use Google services if
-                they choose, but largely only via a browser. A few of their apps like Google Maps
-                do work with reduced functionality without Play services but most won't.</p>
+                as regular apps rather than taking the monopolistic approach of forcing it to be
+                bundled into the OS in a deeply integrated way with special privileged permissions
+                and capabilities unavailable to other service providers competing with them. Until
+                that happens, if ever, GrapheneOS can continue teaching it to function that way to
+                the extent possible without any special privileges.</p>
             </article>
 
             <article id="features">
@@ -1440,7 +1450,7 @@
             </article>
         </main>
         <footer>
-            <a href="/"><img src="/mask-icon.svg" width="512" height="512" alt=""/>GrapheneOS</a>
+            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
             <ul id="social">
                 <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
                 <li><a href="https://github.com/GrapheneOS">GitHub</a></li>

@@ -5,6 +5,7 @@
         <title>Usage guide | GrapheneOS</title>
         <meta name="description" content="Usage instructions for GrapheneOS, a security and privacy focused mobile OS with Android app compatibility."/>
         <meta name="theme-color" content="#212121"/>
+        <meta name="color-scheme" content="dark light"/>
         <meta name="msapplication-TileColor" content="#ffffff"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <meta name="twitter:site" content="@GrapheneOS"/>
@@ -21,18 +22,18 @@
         <link rel="canonical" href="https://grapheneos.org/usage"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="/mask-icon.svg" color="#1a1a1a"/>
+        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        <link rel="stylesheet" href="/main.css"/>
+        {{css|/main.css}}
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
-        <script type="module" src="/js/redirect.js"></script>
+        {{js|/js/redirect.js}}
     </head>
     <body>
         <header>
             <nav id="site-menu">
                 <ul>
-                    <li><a href="/"><img src="/mask-icon.svg" alt=""/>GrapheneOS</a></li>
+                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
                     <li><a href="/features">Features</a></li>
                     <li><a href="/install/">Install</a></li>
                     <li><a href="/build">Build</a></li>
@@ -75,7 +76,13 @@
                         </ul>
                     </li>
                     <li><a href="#web-browsing">Web browsing</a></li>
-                    <li><a href="#camera">Camera</a></li>
+                    <li>
+                        <a href="#camera">Camera</a>
+                        <ul>
+                            <li><a href="#grapheneos-camera-app">GrapheneOS Camera app</a></li>
+                            <li><a href="#google-camera">Google Camera</a></li>
+                        </ul>
+                    </li>
                     <li><a href="#exec-spawning">Exec spawning</a></li>
                     <li><a href="#bugs-uncovered-by-security-features">Bugs uncovered by security features</a></li>
                     <li>
@@ -86,43 +93,16 @@
                         </ul>
                     </li>
                     <li><a href="#lte-only-mode">LTE-only mode</a></li>
+                    <li>
+                        <a href="#sandboxed-play-services">Sandboxed Play services</a>
+                        <ul>
+                            <li><a href="#sandboxed-play-services-installation">Installation</a></li>
+                            <li><a href="#sandboxed-play-services-limitations">Limitations</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#banking-apps">Banking apps</a></li>
                 </ul>
             </nav>
-
-            <section id="accessibility">
-                <h2><a href="#accessibility">Accessibility</a></h2>
-
-                <p>GrapheneOS includes all of the accessibility features from the Android Open
-                Source Project and strives to fill in the gaps from not including Google apps and
-                services. We include our own fork of the open source TalkBack and Switch Access
-                accessibility services along with a Monochromacy option for the standard color
-                correction menu.</p>
-
-                <p>GrapheneOS does not yet include a text-to-speech (TTS) service in the base OS
-                due to limitations of the available options. Including one is planned in the
-                future when a suitable option is available. RHVoice and eSpeak NG are both open
-                source and are the most common choices by GrapheneOS users. Both of these mostly
-                work fine but have licensing issues and don't support Direct Boot so they cannot
-                be used before the initial unlock of the device. Installing and setting up either
-                one of these or another TTS app will get TalkBack working. TalkBack itself
-                supports Direct Boot and works before the first unlock but it needs to have a TTS
-                app supporting it in order to do more than playing the activation sound before the
-                first unlock. After installing a TTS service, you need to select it in the OS
-                configuration to accept activating it. The OS will display one of them as already
-                selected but it won't simply work from being installed as that wouldn't be safe.
-                This is the same as the stock OS but it comes with one set up already.</p>
-
-                <p>GrapheneOS disables showing the characters as passwords are typed by default.
-                You can enable this in Settings ➔ Privacy.</p>
-
-                <p>Third party accessibility services can be installed and activated. This
-                includes the ones made by Google. Most of these will work but some may have a hard
-                dependency on functionality from Google Play services for some of their
-                functionality or to run at all. Accessibility services are very powerful and we
-                strongly recommend against using third party implementations if you can get by
-                well without them. We plan to add safeguards in this area while still keeping them
-                working without problematic barriers.</p>
-            </section>
 
             <section id="system-navigation">
                 <h2><a href="#system-navigation">System navigation</a></h2>
@@ -235,6 +215,41 @@
                 </section>
             </section>
 
+            <section id="accessibility">
+                <h2><a href="#accessibility">Accessibility</a></h2>
+
+                <p>GrapheneOS includes all of the accessibility features from the Android Open
+                Source Project and strives to fill in the gaps from not including Google apps and
+                services. We include our own fork of the open source TalkBack accessibility
+                service along with a Monochromacy option for the standard color correction
+                menu.</p>
+
+                <p>GrapheneOS does not yet include a text-to-speech (TTS) service in the base OS
+                due to limitations of the available options. Including one is planned in the
+                future when a suitable option is available. RHVoice and eSpeak NG are both open
+                source and are the most common choices by GrapheneOS users. Both of these mostly
+                work fine but have licensing issues and don't support Direct Boot so they cannot
+                be used before the initial unlock of the device. Installing and setting up either
+                one of these or another TTS app will get TalkBack working. TalkBack itself
+                supports Direct Boot and works before the first unlock but it needs to have a TTS
+                app supporting it in order to do more than playing the activation sound before the
+                first unlock. After installing a TTS service, you need to select it in the OS
+                configuration to accept activating it. The OS will display one of them as already
+                selected, but it won't simply work from being installed as that wouldn't be safe.
+                This is the same as the stock OS but it comes with one set up already.</p>
+
+                <p>GrapheneOS disables showing the characters as passwords are typed by default.
+                You can enable this in Settings ➔ Privacy.</p>
+
+                <p>Third party accessibility services can be installed and activated. This
+                includes the ones made by Google. Most of these will work but some may have a hard
+                dependency on functionality from Google Play services for some of their
+                functionality or to run at all. Accessibility services are very powerful and we
+                strongly recommend against using third party implementations if you can get by
+                well without them. We plan to add safeguards in this area while still keeping them
+                working without problematic barriers.</p>
+            </section>
+
             <section id="auditor">
                 <h2><a href="#auditor">Auditor</a></h2>
                 <p>See the <a href="https://attestation.app/tutorial">tutorial page on the site for the attestation sub-project</a>.</p>
@@ -321,7 +336,7 @@
                     <p>It's highly recommended to leave automatic updates enabled and to configure the
                     permitted networks if the bandwidth usage is a problem on your mobile data connection.
                     However, it's possible to turn off the update client by going to Settings ➔ Apps,
-                    enabling Show system via the menu, selecting Seamless Update Client and disabling the
+                    enabling Show system via the menu, selecting System Updater and disabling the
                     app.  If you do this, you'll need to remember to enable it again to start receiving
                     updates.</p>
                 </section>
@@ -351,7 +366,7 @@
                     <p>Finally, select the "Apply update from ADB" option in the recovery menu and
                     sideload the update with adb. For example:</p>
 
-                    <pre>adb sideload blueline-ota_update-2019.07.01.21.zip</pre>
+                    <pre>adb sideload raven-ota_update-2021122018.zip</pre>
 
                     <p><strong>You do not need to have adb enabled within the OS or the host's ADB key
                     whitelisted within the OS to sideload an update to recovery. Recovery mode does not
@@ -484,36 +499,130 @@
             <section id="camera">
                 <h2><a href="#camera">Camera</a></h2>
 
-                <p>The Camera app included in GrapheneOS is very basic and can't take full advantage
-                of the hardware. It doesn't offer much in the way of configuration. In the long term,
-                it's going to be replaced. In the short term, there are other apps available providing
-                more capabilities and better support for taking advantage of the hardware.</p>
+                <p>GrapheneOS has the same camera capabilities and quality as the stock OS. It
+                will match the stock OS when comparing the same app on each OS. GrapheneOS uses
+                our own modern Camera app rather than the standard AOSP Camera app. GrapheneOS
+                Camera is far better than any of the portable open source camera alternatives and
+                even most proprietary camera apps including paid apps. On Pixels, Google Camera
+                can be used as an alternative with more features. The section below has a detailed
+                guide on using GrapheneOS Camera and the following section explains the remaining
+                advantages of Google Camera on Pixels.</p>
 
-                <p>The Pixel 3 (but not the Pixel 3a) and Pixel 4 (but not the Pixel 4a) have a
-                Pixel Visual Core / Pixel Neural Core providing a hardware-based implementation of
-                HDR+. HDR+ captures many images and intelligently merges data across them, taking
-                into account motion, etc. It substantially improves the quality of images,
-                especially in low light. This is used transparently for third party apps that are
-                compatible with it, and there isn't an explicit switch to turn it on or off for
-                most of them. An example of a compatible app is Open Camera's default
-                configuration, or Open Camera with the Camera 2 API and other settings (including
-                the the various knobs / toggles outside of the settings menu) left alone. In
-                general, HDR+ will work transparently in most apps as long as they keep things
-                simple and use a good minimalist approach to taking pictures. It should work
-                transparently in most messaging apps, etc. with internal support for taking
-                pictures.</p>
+                <section id="grapheneos-camera-app">
+                    <h3><a href="#grapheneos-camera-app">GrapheneOS Camera app</a></h3>
 
-                <p>In addition to supporting HDR+ via the Pixel Visual Core, or similar features on
-                other devices with the same constraints, Open Camera offers advanced configuration and
-                various advanced features. Make sure to enable the Camera 2 API in the settings, which
-                should be the default, but the app doesn't have a great user interface / user
-                experience. You probably don't want to use the traditional HDR feature in the app.
-                That's not HDR+, but rather captures 3 images and merges them in a way that isn't at
-                all intelligent and causes a lot of blur and distortion. The HDR+ implementation can
-                actually benefit from the camera not being completely steady as it's smart enough to
-                match up the picture and it provides it with more data vs. a traditional HDR
-                implementation where it essentially doesn't work without a tripod and is not really at
-                all useful on a phone unless you actually have that for it.</p>
+                    <p>GrapheneOS includes our own modern Camera app based on the bleeding edge
+                    release channel of Android's CameraX library. It provides modes for QR
+                    scanning, image capture and video recording as tabs at the bottom of the
+                    screen. You can either use the tab interface or swipe left and right anywhere
+                    on the screen above it to switch between them. The arrow button at the top of
+                    the screen opens the settings panel and you can close it by pressing anywhere
+                    outside the settings panel. You can also swipe down to open the settings and
+                    swipe up to close it. Outside of the QR scanning mode, there's a row of large
+                    buttons above the tab bar for switching between the cameras (left), capturing
+                    images and starting/stopping video recording (middle) and opening the gallery
+                    (right). The volume keys can also be used as an equivalent to pressing the
+                    capture button. While recording a video, the gallery button becomes an image
+                    capture button for capturing images.</p>
+
+                    <p>Our Camera app provides the system media intents used by other apps to
+                    capture images / record videos via the OS provided camera implementation.
+                    These intents can only be provided by a system app since Android 11, so the
+                    quality of the system camera is quite important.</p>
+
+                    <p>The in-app gallery / video player doesn't yet support zooming and depends
+                    on opening an external image/video editor. This will be improved in the
+                    future. We'll eventually be making our own gallery/editor app sharing a lot of
+                    the code with the in-app gallery in the camera.</p>
+
+                    <p>Using the default 4:3 aspect ratio for image capture is recommended since
+                    16:9 is simply cropped output on all supported devices. A device oriented
+                    towards video recording might actually have a wider image sensor but that's
+                    not the case for Pixels or nearly any other smartphone.</p>
+
+                    <p>Image capture uses lightweight HDR+ on all supported Pixels and HDRnet for the
+                    preview on 5th generation Pixels. Using the torch or camera flash will result
+                    in HDR+ being disabled which is why automatic flash isn't enabled by default.
+                    The lightweight HDR+ doesn't use as many frames as the more aggressive Google
+                    Camera HDR+. CameraX extensions will eventually provide support for an HDR
+                    mode with more aggressive HDR+ taking/combining more than only around 3 frames
+                    along with a Night mode providing the Night Sight variant of HDR+ inflating
+                    the light of the scene through combining the frames. Other fancy features like
+                    Portrait mode will also depend on CameraX extensions being provided in the
+                    future. There isn't a timeline for this but an initial implementation will
+                    likely be shipped within the next year for Pixels.</p>
+
+                    <p>Zooming via pinch to zoom or the zoom slider will automatically make use of
+                    the wide angle and telephoto cameras on Pixels. 5th and 6th generation Pixels
+                    (4a (5G), 5, 5a, 6, 6 Pro) have a wide angle camera for zooming out to under
+                    1x to capture a much wider field of view. Images taken with the wide angle
+                    lens won't match the quality of the normal camera, especially with 6th
+                    generation Pixels. Flagship 4th generation Pixels (4, 4 XL) have a telephoto
+                    camera providing 2x optical zoom and the Pixel 6 Pro has one providing 4x
+                    optical zoom.</p>
+
+                    <p>By default, continuous auto focus, auto exposure and auto white balance are
+                    used across the whole scene. Tapping to focus will switch to auto focus, auto
+                    exposure and auto white balance based on that location. The focus timeout
+                    setting determines the timeout before it switches back the default mode. The
+                    exposure compensation slider on the left allows manually tuning exposure and
+                    will automatically adjust shutter speed, aperture and ISO without disrupting
+                    lightweight HDR+ support. Further configuration / tuning over the algorithms
+                    will be provided in the future. Direct manual control doesn't make much sense
+                    with the modern camera stack and isn't planned.</p>
+
+                    <p>CameraX only recently gained official support for video recording in
+                    October 2021 and there are still some quirks. The preview can sometimes end up
+                    misaligned but the recorded videos won't be impacted. 16:9 is currently the
+                    only supported video aspect ratio. 1080p (FHD) is the default but 2160p (UHD)
+                    is supported. CameraX UHD support may be buggy on some devices.</p>
+
+                    <p>The QR scanning mode only scans within the scanning square marked on the
+                    screen. The QR code should be aligned with the edges of the square but can
+                    have any 90 degree orientation. Non-standard inverted QR codes are fully
+                    supported. It's a very quick and high quality QR scanner able to easily scan
+                    very high density QR codes from Pixels. Every 2 seconds, it will refresh auto
+                    focus, auto exposure and auto white balance on the scanning square. It has
+                    full support for zooming in and out. Support for other kinds of barcodes will
+                    be added in the future, but adding them transparently would result in getting
+                    false positives and would substantially harm the QR scanning capability. It
+                    will need to be done in a way offering more control without having an overly
+                    complex user interface.</p>
+
+                    <p>Camera permission is the only one that's required. Images and videos are
+                    stored via the Media Store API so media/storage permissions aren't required.
+                    The Microphone permission is needed for video recording by default but not
+                    when including audio is disabled. Location permission is only needed if you
+                    explicitly enabling location tagging, which is an experimental feature.</p>
+
+                    <p>Captured images currently include an EXIF timestamp, the phone model and an
+                    abstraction of the exposure configuration. This will become fully optional in
+                    the future and will likely be opt-in rather than opt-out. EXIF orientation
+                    data is crucial for setting the proper orientation of the image. Videos have
+                    their own similar metadata.</p>
+                </section>
+
+                <section id="google-camera">
+                    <h3><a href="#google-camera">Google Camera</a></h3>
+
+                    <p>Google Camera can be used with the <a href="#sandboxed-play-services">sandboxed
+                    Play services compatibility layer</a> and can take full advantage of the
+                    available cameras and image processing hardware as it can on the stock OS.</p>
+
+                    <p>We aim to reduce the benefits of Google Camera compared to GrapheneOS
+                    Camera over time, especially on Pixels. Many features of Google Camera will
+                    end up being available for GrapheneOS Camera in the next year or so via
+                    CameraX extensions including more aggressive HDR+, Night Sight and Portrait.
+                    Video features such as Electronic Image Stabilization (EIS), slow motion and
+                    time lapse are likely further away than within the next year. These video
+                    features could potentially be provided via CameraX vendor extensions or could
+                    be implemented via our own post-processing of the video output. Panorama,
+                    Photo Sphere, Astrophotography, Motion Photos, Frequent Faces, Dual Exposure
+                    Controls, Google Lens, etc. aren't on the roadmap for GrapheneOS Camera. Video
+                    frame rate configuration and H.265 support should be available for GrapheneOS
+                    Camera in the near future via CameraX improvements along with DNG (RAW)
+                    support in the further future.</p>
+                </section>
             </section>
 
             <section id="exec-spawning">
@@ -634,7 +743,7 @@
                     <p>In the stock OS, the default is to use a unique persistent random MAC address for
                     each network. It has 2 options available: "Use randomized MAC (default)" and "Use
                     device MAC". In GrapheneOS, the default is generating a new random MAC address when
-                    connecting to a network. It has 3 options available: "Use fully randomized MAC
+                    connecting to a network. It has 3 options available: "Use per-connection randomized MAC
                     (default)", "Use per-network randomized MAC" and "Use device MAC".</p>
 
                     <p>The DHCP client uses the anonymity profile rather than sending a hostname
@@ -656,7 +765,7 @@
                 <h2><a href="#lte-only-mode">LTE-only mode</a></h2>
 
                 <p>If you have a reliable LTE connection from your carrier, you can reduce attack
-                surface by disabling 2G / 3G connectivity in Settings ➔ Network &amp; Internet ➔
+                surface by disabling 2G, 3G and 5G connectivity in Settings ➔ Network &amp; Internet ➔
                 Mobile network ➔ Preferred network type. Traditional voice calls will only work in
                 the LTE-only mode if you have either an LTE connection and VoLTE (Voice over LTE)
                 support or a Wi-Fi connection and VoWi-Fi (Voice over Wi-Fi) support. VoLTE /
@@ -671,9 +780,163 @@
                 itself. The intention of the LTE-only feature is only hardening against remote
                 exploitation by disabling an enormous amount of legacy code.</p>
             </section>
+
+            <section id="sandboxed-play-services">
+                <h2><a href="#sandboxed-play-services">Sandboxed Play services</a></h2>
+
+                <p>GrapheneOS has a compatibility layer providing the option to install and use
+                the official releases of Play services in the standard app sandbox. Play services
+                receives absolutely no special access or privileges on GrapheneOS as opposed to
+                bypassing the app sandbox and receiving a massive amount of highly privileged
+                access. Instead, the compatibility layer teaches it how to work within the full
+                app sandbox. It also isn't used as a backend for the OS services as it would be
+                elsewhere since GrapheneOS doesn't use Play services even when it's installed.</p>
+
+                <p>Since the Play services apps are simply regular apps on GrapheneOS, you install
+                them within a specific user or work profile and they're only available within that
+                profile. Only apps within the same profile can use it and they need to explicitly
+                choose to use it. It works the same way as any other app and has no special
+                capabilities. As with any other app, it can't access data of other apps and
+                requires explicit user consent to gain access to profile data or the standard
+                permissions. Apps within the same profile can communicate with mutual consent and
+                it's no different for sandboxed Play services.</p>
+
+                <p>The core functionality and APIs are almost entirely supported already since
+                GrapheneOS largely only has to coerce these apps into continuing to run without
+                being able to use any of the usual invasive OS integration. A compatibility layer
+                is also provided to support dynamically downloaded/loaded modules (dynamite
+                modules). The compatibility layer will be gradually expanded and improved in order
+                to get more of the Play services functionality working.</p>
+
+                <p>GrapheneOS provides a dedicated compatibility layer for Play Store app
+                installation/updates/removal teaching it to use the standard unprivileged approach
+                available to sandboxed apps. It prompts the user to permit it as an app source and
+                then prompts for the initial app install/update or removal. It will use Android
+                12's support for unattended updates when possible which means it can do unattended
+                updates of modern (API 29+) apps where it was the installer for the currently
+                installed version already.</p>
+
+                <section id="sandboxed-play-services-installation">
+                    <h3><a href="#sandboxed-play-services-installation">Installation</a></h3>
+
+                    <p>Play services is divided up into 3 separate apps: Google Services Framework
+                    (com.google.android.gsf), Google Play services (com.google.android.gms) and
+                    Google Play Store (com.android.vending). To use sandboxed Play services, you
+                    simply need to install the official releases of these 3 apps in the user and
+                    work profiles where you want to use it.</p>
+
+                    <p>The simplest approach is to only use the Owner user profile. Apps installed
+                    in the Owner profile are sandboxed the same way as everywhere else and don't
+                    receive any special access. If you want to choose which apps use Play services
+                    rather than making it available to all of them, install it in a separate user
+                    or work profile for apps depending on Play services. You could also do it the
+                    other way around, but it makes more sense to try to use as much as possible
+                    without Play services rather than treating not using it as the exceptional
+                    case.</p>
+
+                    <p>Install com.google.android.gsf, then com.google.android.gms and finally use
+                    a split APK installer to install all 5 of the APKs for com.android.vending
+                    together. Make sure to install all 3 in the correct order and don't skip
+                    installing the Play Store since it provides services used by apps depending on
+                    Play. You can obtain a split APK installer app from either Aurora Store,
+                    F-Droid or the developers of the app via their GitHub releases, etc.</p>
+
+                    <p>In the future, we'll have a client app for our repository so you'll be able
+                    to install and update the official Play services apps through that app and you
+                    won't need to deal with split APK installation manually.</p>
+
+                    <ul>
+                        <li><a href="https://apps.grapheneos.org/packages/com.google.android.gsf/">com.google.android.gsf</a></li>
+                        <li><a href="https://apps.grapheneos.org/packages/com.google.android.gms/">com.google.android.gms</a></li>
+                        <li><a href="https://apps.grapheneos.org/packages/com.android.vending/">com.android.vending</a></li>
+                    </ul>
+
+                    <p>You should give a battery optimization exception to Google Play services
+                    for features like push notifications to work properly in the background. It
+                    isn't needed for the other 2 apps.</p>
+
+                    <p>After installing the apps, you should open the Play Store and press sign in
+                    to trigger initialization. Signing into an account is optional and it will
+                    work fine without it, but you do need to get it initialized and this is
+                    currently the best way to mimic the initialization done by the stock OS setup
+                    wizard.</p>
+
+                    <p>You can obtain updates to these apps from our repository which will be easy
+                    once we have a client app. The Play Store app can also be used to update
+                    Google Play services and itself. Updates to the Google Services Framework
+                    (com.google.android.gsf) app are normally only distributed through OS updates
+                    so you need to get those from our repository.</p>
+                </section>
+
+                <section id="sandboxed-play-services-limitations">
+                    <h3><a href="#sandboxed-play-services-limitations">Limitations</a></h3>
+
+                    <p>Functionality depending on privileged access such as special access to
+                    hardware isn't available. We would need to implement compatibility layers
+                    teaching it how to function as a regular app. This currently isn't within the
+                    scope of the project beyond the existing support for dynamite modules and
+                    partially implemented support for Play Store app installation/updates. The
+                    official Android Auto interface is a good example of functionality heavily
+                    depending on having highly invasive privileged access beyond what would be
+                    realistic to get working with an expanded compatibility layer.</p>
+
+                    <p>Play Store assumes that uninstallation always succeeds so it will stall if
+                    it tries to uninstall an app and you reject it. You can work around this by
+                    force stopping and then reopening it.</p>
+
+                    <p>Play Store feature delivery isn't currently supported, but this isn't
+                    broadly used by current generation apps aside from large games.</p>
+
+                    <p>Since there's no OS integration beyond fallback code to make it function
+                    without any special privileges, there isn't a way to launch the Play services
+                    settings activity. We'll need to make a tiny app providing a way to launch
+                    it.</p>
+                </section>
+            </section>
+
+            <section id="banking-apps">
+                <h2><a href="#banking-apps">Banking apps</a></h2>
+
+                <p>Banking apps are a particularly problematic class of apps for compatibility
+                with alternate operating systems. Some of these work fine with any GrapheneOS
+                configuration but most of them have extensive dependencies on Play services. For
+                many of these apps, it's enough to set up the GrapheneOS sandboxed Play services
+                feature in the same profile. Unfortunately, there are further complications not
+                generally encountered with non-financial apps.</p>
+
+                <p>Many of these apps have their own crude anti-tampering mechanisms trying to
+                prevent inspecting or modifying the app in a weak attempt to hide their code and
+                API from security researchers. GrapheneOS allows users to disable native code
+                debugging via a toggle in Settings ➔ Security to improve the app sandbox and this
+                can interfere with apps debugging their own code to add a barrier to analyzing the
+                app. You should try enabling this again if you've disabled it and are encountering
+                compatibility issues with these kinds of apps.</p>
+
+                <p>Banking apps are increasingly using Google's SafetyNet attestation service to
+                check the integrity and certification status of the operating system. GrapheneOS
+                passes the <code>basicIntegrity</code> check but isn't certified by Google so it
+                fails the <code>ctsProfileMatch</code> check. Most apps currently only enforce
+                weak software-based attestation which can be bypassed by spoofing what it checks.
+                GrapheneOS doesn't attempt to bypass the checks since it would be very fragile and
+                would repeatedly break as the checks are improved. Devices launched with Android 8
+                or later have hardware attestation support which cannot be bypassed without leaked
+                keys or serious vulnerabilities so the era of being able to bypass these checks by
+                spoofing results is coming to an end regardless.</p>
+
+                <p>The hardware attestation feature is part of the Android Open Source Project and
+                is fully supported by GrapheneOS. SafetyNet attestation chooses to use it to
+                enforce using Google certified operating systems. However, app developers can use
+                it directly and permit other properly signed operating systems upholding the
+                security model. GrapheneOS has a
+                <a href="https://grapheneos.org/articles/attestation-compatibility-guide">a
+                detailed guide</a> for app developers on how to support GrapheneOS with the
+                hardware attestation API. Direct use of the hardware attestation API provides much
+                higher assurance than using SafetyNet so these apps have nothing to lose by using a
+                more meaningful API and supporting a more secure OS.</p>
+            </section>
         </main>
         <footer>
-            <a href="/"><img src="/mask-icon.svg" width="512" height="512" alt=""/>GrapheneOS</a>
+            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
             <ul id="social">
                 <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
                 <li><a href="https://github.com/GrapheneOS">GitHub</a></li>
