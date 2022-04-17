@@ -113,16 +113,17 @@
                 <ul>
                     <li>Windows 10</li>
                     <li>Windows 11</li>
+                    <li>macOS Catalina</li>
                     <li>macOS Big Sur</li>
                     <li>macOS Monterey</li>
                     <li>Arch Linux</li>
                     <li>Debian 10 (buster)</li>
                     <li>Debian 11 (bullseye)</li>
                     <li>Ubuntu 20.04 LTS</li>
-                    <li>Ubuntu 20.10</li>
+                    <li>Ubuntu 21.10</li>
                     <li>ChromeOS</li>
                     <li>GrapheneOS</li>
-                    <li>Google Android on GrapheneOS-supported devices</li>
+                    <li>Google Android (stock Pixel OS) and other certified Android variants</li>
                 </ul>
 
                 <p>Make sure your operating system is up-to-date before proceeding.</p>
@@ -135,6 +136,7 @@
                     <li>Vanadium (GrapheneOS)</li>
                     <li>Google Chrome</li>
                     <li>Microsoft Edge</li>
+                    <li>Brave</li>
                 </ul>
 
                 <p>Make sure your browser is up-to-date before proceeding.</p>
@@ -169,9 +171,9 @@
                 repeatedly pressing the build number menu entry until developer mode is
                 enabled.</p>
 
-                <p>Next, go to Settings ➔ System ➔ Advanced ➔ Developer options and toggle on the
-                'OEM unlocking' setting. This requires internet access on devices with Google
-                Play services as part of Factory Reset Protection (FRP) for anti-theft protection.</p>
+                <p>Next, go to Settings ➔ System ➔ Developer options and toggle on the 'OEM
+                unlocking' setting. This requires internet access on devices with Google Play
+                services as part of Factory Reset Protection (FRP) for anti-theft protection.</p>
             </section>
 
             <section id="flashing-as-non-root">
@@ -355,11 +357,11 @@
 
                     <p>Installation of the stock OS via the stock factory images is similar to the
                     process described above but with Google's web flashing tool. However, before
-                    locking, there's an additional step to fully revert the device to a clean
-                    factory state.</p>
+                    flashing and locking, there's an additional step to fully revert the device to
+                    a clean factory state.</p>
 
                     <p>The GrapheneOS factory images flash a non-stock Android Verified Boot key which
-                    needs to be erased to fully revert back to a stock device state. After flashing the
+                    needs to be erased to fully revert back to a stock device state. Before flashing the
                     stock factory images and before locking the bootloader, you should erase the custom
                     Android Verified Boot key to untrust it:</p>
 

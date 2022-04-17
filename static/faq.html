@@ -209,6 +209,10 @@
                     improvements. We strongly recommend buying one of these latest generation
                     devices.</p>
 
+                    <p>The Pixel 6a will be available in the near future and will be supported by
+                    GrapheneOS shortly after release. If you want a cheaper device instead of a
+                    flagship, consider waiting for the Pixel 6a.</p>
+
                     <p>The cheaper Pixel 6 has extremely competitive pricing for the flagship
                     level hardware especially with the guaranteed long term support. Pixel 6 Pro
                     has 50% more memory (12GB instead of 8GB), a higher end screen, a 3rd rear
@@ -216,20 +220,12 @@
                     the same SoC (CPU, GPU, etc.) and the same main + ultrawide rear cameras. The
                     Pixel 6 is quite large and the Pixel 6 Pro is larger.</p>
 
-                    <p>The following devices are reasonable choices if for some reason you can't
-                    obtain a Pixel 6 or Pixel 6 Pro:</p>
-
-                    <ul>
-                        <li>Pixel 5a (barbet)</li>
-                        <li>Pixel 5 (redfin)</li>
-                        <li>Pixel 4a (5G) (bramble)</li>
-                    </ul>
-
                     <p>The Pixel 5a, Pixel 5 and Pixel 4a (5G) are 5th generation Pixels sharing
-                    the same mid-range 2020 SoC. These devices have around 2-3 years before their
-                    end-of-life date after they receive Android 14. It's likely but not guaranteed
-                    that the Pixel 5 and 4a (5G) will have their full security support extended to
-                    match the Pixel 5a since they use the same platform.</p>
+                    the same mid-range 2020 SoC. These are reasonable choices if for some reason
+                    you can't obtain a Pixel 6 or Pixel 6 Pro. These devices have around 2 years
+                    before their end-of-life date after they receive Android 14. It's likely but
+                    not guaranteed that the Pixel 5 and 4a (5G) will have their full security
+                    support extended to match the Pixel 5a since they use the same platform.</p>
 
                     <p>Despite the misleading name, the Pixel 4a (5G) is not a variant of the 4th
                     generation Pixel 4a which has an older mid-range 2019 SoC. The Pixel 4a was
@@ -519,7 +515,7 @@
                     around for compatibility. It used to need more extensive changes such as disallowing
                     access to the serial number but those restrictions are now standard.</p>
 
-                    <p>Apps can determine the model of the device (such as it being a Pixel 5) either
+                    <p>Apps can determine the model of the device (such as it being a Pixel 6) either
                     directly or indirectly through the properties of the hardware and software. There
                     isn't a way to avoid this short of the OS supporting running apps in a virtual machine
                     with limited functionality and hardware acceleration. Hiding the CPU/SoC model would
@@ -543,10 +539,10 @@
                     details, so you can stop reading here if you only want an overview and actionable
                     advice (i.e. use profiles as identities not inherently tied to each other).</p>
 
-                    <p>Examples of the global OS configuration available to apps are configured
-                    locale, time zone, network country code, whether the dark theme is enabled and
-                    other similar global settings. Similar to extension and browser configuration
-                    / state being fingerprinted by web sites, an app could use a combination of
+                    <p>Examples of the global OS configuration available to apps are time zone,
+                    network country code and other similar global settings. Per-profile examples
+                    are dark mode and language. Similar to extension and browser configuration /
+                    state being fingerprinted by web sites, an app could use a combination of
                     these things in an attempt to identify the installation. All of these things
                     vary at runtime and can be changed, but some are fairly unlikely to change in
                     practice after the initial setup of the device such as the ones listed above.
@@ -584,8 +580,9 @@
                     collisions, although a device messing with apps could set it to the same value used in
                     another profile. The advertising ID is exposed via the Settings app and can be reset
                     to a new random value, unlike <code>ANDROID_ID</code> which remains the same for the
-                    lifetime of the profile, but apps can tie it the previous ID since they can detect
-                    that it changed via their own ID in their app data.</p>
+                    lifetime of the profile, but apps can tie it to the previous ID since they can detect
+                    that it changed via their own ID in their app data. The advertising ID can
+                    also now be disabled (zeroed).</p>
 
                     <p>Apps do not have access to user data by default and cannot ever access the data of
                     other apps without those apps going out of the way to share it with them. If apps are
@@ -714,11 +711,12 @@
                             HTTPS-based time updates in order to blend in with other devices.</p>
 
                             <p>Network time can be disabled with the toggle at Settings ➔ System ➔ Date
-                            &amp; time ➔ Use network-provided time. Unlike AOSP or the stock OS on the
+                            &amp; time ➔ Set time automatically. Unlike AOSP or the stock OS on the
                             supported devices, GrapheneOS stops making network time connections when using
                             network time is disabled rather than just not setting the clock based on it.
                             The time zone is still obtained directly via the time zone provided by the
-                            mobile network when available.</p>
+                            mobile network (NITZ) when available which you can also disable by the "Set
+                            time zone automatically" toggle.</p>
                         </li>
                         <li>
                             <p>On devices with a Qualcomm baseband (which provides GPS), when location
@@ -759,10 +757,10 @@
                             portals without the user turning off their VPN.</p>
 
                             <p>You can change the connectivity check URLs via the Settings ➔
-                            Network &amp; internet ➔ Advanced ➔ Internet connectivity check
-                            setting. At the moment, it can be toggled between the GrapheneOS
-                            servers (default), the standard Google servers used by billions of
-                            other Android devices or disabled.</p>
+                            Network &amp; Internet ➔ Internet connectivity check setting.
+                            At the moment, it can be toggled between the GrapheneOS servers
+                            (default), the standard Google servers used by billions of other
+                            Android devices or disabled.</p>
 
                             <p>By default, the GrapheneOS connectivity check servers are used via the
                             following URLs:</p>
@@ -791,6 +789,19 @@
                             itself, not falling back to other networks when some don't have
                             internet access and not being able to delay scheduled jobs depending
                             on internet access until it becomes available.</p>
+                        </li>
+                        <li>
+                            <p>Connections are made to a server to provision attestation
+                            certificates for hardware-based attestation. GrapheneOS uses
+                            https://remoteprovisioning.grapheneos.org/ by default which is a
+                            reverse proxy to the https://remoteprovisioning.googleapis.com/
+                            service. Their service splits up the implementation of provisioning to
+                            preserve privacy, and our reverse proxy adds to that since it's unable
+                            to decrypt the provisioned keys.</p>
+
+                            <p>A setting is added at Settings ➔ Network &amp; Internet ➔
+                            Attestation key provisioning server for switching to directly using
+                            the Google service if you prefer.</p>
                         </li>
                         <li>
                             <p>DNS connectivity and functionality tests</p>
@@ -874,8 +885,8 @@
                     <h3><a href="#custom-dns">How do I use a custom DNS server?</a></h3>
 
                     <p>It isn't possible to directly override the DNS servers provided by the network via
-                    DHCP. Instead, use the Private DNS feature in Settings ➔ Network &amp; internet ➔
-                    Advanced ➔ Private DNS to set the hostname of a DNS-over-TLS server. It needs to have
+                    DHCP. Instead, use the Private DNS feature in Settings ➔ Network &amp; Internet ➔
+                    Private DNS to set the hostname of a DNS-over-TLS server. It needs to have
                     a valid certificate such as a free certificate from Let's Encrypt. The OS will look up
                     the Private DNS hostname via the network provided DNS servers and will then force all
                     other DNS requests through the Private DNS server. Unlike an option to override the
@@ -949,8 +960,8 @@
                 <article id="vpn-support">
                     <h3><a href="#vpn-support">What kind of VPN and Tor support is available?</a></h3>
 
-                    <p>VPNs can be configured under Settings ➔ Network &amp; Internet ➔ Advanced ➔
-                    VPN. Support for the following protocols is included: IKEv2/IPSec MSCHAPv2,
+                    <p>VPNs can be configured under Settings ➔ Network &amp; Internet ➔ VPN.
+                    Support for the following protocols is included: IKEv2/IPSec MSCHAPv2,
                     IKEv2/IPSec PSK and IKEv2/IPSec RSA. Apps can also provide userspace VPN
                     implementations and the following open source apps are recommended: Orbot
                     (Tor), WireGuard and OpenVPN for Android.</p>
@@ -970,8 +981,8 @@
                     <p>Apps cannot monitor network connections unless they're made into the active VPN
                     service by the user. Apps cannot normally access network stats and cannot directly
                     request access to them. However, app-based stats can be explicitly granted by users as
-                    part of access to app usage stats in Settings ➔ Apps &amp; notifications ➔ Special app
-                    access ➔ Usage access.</p>
+                    part of access to app usage stats in Settings ➔ Apps ➔ Special app access ➔ Usage
+                    access.</p>
 
                     <p>This was previously part of the GrapheneOS privacy improvements, but became a
                     standard Android feature with Android 10.</p>
@@ -1162,16 +1173,19 @@
                     at boot or when the device is unlocked. You can configure this in Settings ➔
                     Security.</p>
 
-                    <p>Transferring files to an attached computer is done with MTP / PTP. After
-                    plugging in the phone to the computer, there will be a notification showing
-                    the current USB mode with charging as the default. Pressing the notification
-                    acts as a shortcut to Settings ➔ Connected devices ➔ USB. You can enable file
-                    transfer (MTP) or PTP with this menu. It will provide read/write access to the
-                    entire profile home directory, i.e. the top-level directory named after the
-                    device in the system file manager. Due to needing to trust the computer with
-                    coarse-grained access, we recommend transferring files with a flash drive or
-                    an app with end-to-end encryption such sending the files to yourself via an
-                    end-to-end encrypted messaging app like Element (Matrix).</p>
+                    <p>Transferring files to an attached computer is done with MTP / PTP. Users on
+                    a Mac computer will need to install
+                    <a href="https://www.android.com/filetransfer/">Android File Transfer</a> to be
+                    able to transfer files between macOS and Android. After plugging in the phone
+                    to the computer, there will be a notification showing the current USB mode with
+                    charging as the default. Pressing the notification acts as a shortcut to
+                    Settings ➔ Connected devices ➔ USB. You can enable file transfer (MTP) or PTP
+                    with this menu. It will provide read/write access to the entire profile home
+                    directory, i.e. the top-level directory named after the device in the system
+                    file manager which does not include internal app data. Due to needing to trust
+                    the computer with coarse-grained access, we recommend transferring files with a
+                    flash drive or by sending the files to yourself via an end-to-end encrypted
+                    messaging app like Element (Matrix).</p>
                 </article>
             </section>
 

@@ -75,6 +75,7 @@
                             <li><a href="#updates-sideloading">Sideloading</a></li>
                         </ul>
                     </li>
+                    <li><a href="#usb-peripherals">USB peripherals</a></li>
                     <li><a href="#web-browsing">Web browsing</a></li>
                     <li>
                         <a href="#camera">Camera</a>
@@ -94,13 +95,17 @@
                     </li>
                     <li><a href="#lte-only-mode">LTE-only mode</a></li>
                     <li>
-                        <a href="#sandboxed-play-services">Sandboxed Play services</a>
+                        <a href="#sandboxed-google-play">Sandboxed Google Play</a>
                         <ul>
-                            <li><a href="#sandboxed-play-services-installation">Installation</a></li>
-                            <li><a href="#sandboxed-play-services-limitations">Limitations</a></li>
+                            <li><a href="#sandboxed-google-play-installation">Installation</a></li>
+                            <li><a href="#sandboxed-google-play-configuration">Configuration</a></li>
+                            <li><a href="#sandboxed-google-play-limitations">Limitations</a></li>
+                            <li><a href="#sandboxed-google-play-esim">Privileged eSIM management</a></li>
                         </ul>
                     </li>
                     <li><a href="#banking-apps">Banking apps</a></li>
+                    <li><a href="#app-link-verification">App link verification</a></li>
+                    <li><a href="#carrier-functionality">Carrier functionality</a></li>
                 </ul>
             </nav>
 
@@ -112,9 +117,9 @@
                 like it. Our experience is that when armed with the appropriate knowledge, the
                 vast majority of users prefer the newer gesture navigation approach.</p>
 
-                <p>The system navigation mode can be configured in Settings → System → Gestures →
-                System navigation. The same menu is also available in Settings → Accessibility →
-                System navigation.</p>
+                <p>The system navigation mode can be configured in Settings ➔ System ➔ Gestures ➔
+                System navigation. The same menu is also available in Settings ➔ Accessibility ➔
+                System controls ➔ System navigation.</p>
 
                 <section id="gesture-navigation">
                     <h3><a href="#gesture-navigation">Gesture navigation</a></h3>
@@ -286,8 +291,7 @@
                 <section id="updates-settings">
                     <h3><a href="#updates-settings">Settings</a></h3>
 
-                    <p>The settings are available in the Settings app in System ➔ Advanced ➔ Update
-                    settings.</p>
+                    <p>The settings are available in the Settings app in System ➔ System update.</p>
 
                     <p>The "Check for updates" option will manually trigger an update check as soon as
                     possible. It will still wait for the configuration conditions listed below to be
@@ -312,6 +316,12 @@
                     device after an update once it has been idle for a long time. When this setting is
                     enabled, a device can take care of any number of updates completely automatically even
                     if it's left completely idle.</p>
+
+                    <p>The "Notification settings" option is a shortcut to the System Updater notification
+                    settings which allows you to control notification settings from System Updater such as
+                    notification dot, lock screen, and noisy / silent notifications. These notifications
+                    include updater errors, progress, already up to date, and reboot prompts. By default all
+                    notifications are enabled.</p>
                 </section>
 
                 <section id="updates-security">
@@ -511,29 +521,36 @@
                 <section id="grapheneos-camera-app">
                     <h3><a href="#grapheneos-camera-app">GrapheneOS Camera app</a></h3>
 
-                    <p>GrapheneOS includes our own modern Camera app based on the bleeding edge
-                    release channel of Android's CameraX library. It provides modes for QR
-                    scanning, image capture and video recording as tabs at the bottom of the
-                    screen. You can either use the tab interface or swipe left and right anywhere
-                    on the screen above it to switch between them. The arrow button at the top of
-                    the screen opens the settings panel and you can close it by pressing anywhere
-                    outside the settings panel. You can also swipe down to open the settings and
-                    swipe up to close it. Outside of the QR scanning mode, there's a row of large
-                    buttons above the tab bar for switching between the cameras (left), capturing
-                    images and starting/stopping video recording (middle) and opening the gallery
-                    (right). The volume keys can also be used as an equivalent to pressing the
-                    capture button. While recording a video, the gallery button becomes an image
-                    capture button for capturing images.</p>
+                    <p>GrapheneOS includes our own modern camera app focused on privacy and
+                    security. It includes modes for capturing images, videos and QR / barcode
+                    scanning along with additional modes based on CameraX vendor extensions
+                    (Portrait, HDR, Night Sight, Face Retouch and Auto) on <a
+                    href="https://developer.android.com/training/camerax/devices">devices where
+                    they're available</a> (not available on Pixels yet).</p>
+
+                    <p>Modes are displayed as tabs at the bottom of the screen. You can switch
+                    between modes using the tab interface or by swiping left/right anywhere on the
+                    screen. The arrow button at the top of the screen opens the settings panel and
+                    you can close it by pressing anywhere outside the settings panel. You can also
+                    swipe down to open the settings and swipe up to close it. Outside of the QR
+                    scanning mode, there's a row of large buttons above the tab bar for switching
+                    between the cameras (left), capturing images and starting/stopping video
+                    recording (middle) and opening the gallery (right). The volume keys can also
+                    be used as an equivalent to pressing the capture button. While recording a
+                    video, the gallery button becomes an image capture button for capturing
+                    images.</p>
 
                     <p>Our Camera app provides the system media intents used by other apps to
                     capture images / record videos via the OS provided camera implementation.
                     These intents can only be provided by a system app since Android 11, so the
                     quality of the system camera is quite important.</p>
 
-                    <p>The in-app gallery / video player doesn't yet support zooming and depends
-                    on opening an external image/video editor. This will be improved in the
-                    future. We'll eventually be making our own gallery/editor app sharing a lot of
-                    the code with the in-app gallery in the camera.</p>
+                    <p>The app has an in-app gallery and video player for images/videos taken with
+                    it. It currently opens an external editor activity for the edit action.
+                    GrapheneOS comes with AOSP Gallery which provides an editor activity. You can
+                    install a nicer photo editor and the Camera app will be able to use it. We
+                    plan to replace AOSP Gallery with a standalone variant of the gallery we're
+                    developing for the Camera app in the future.</p>
 
                     <p>Using the default 4:3 aspect ratio for image capture is recommended since
                     16:9 is simply cropped output on all supported devices. A device oriented
@@ -567,15 +584,8 @@
                     setting determines the timeout before it switches back the default mode. The
                     exposure compensation slider on the left allows manually tuning exposure and
                     will automatically adjust shutter speed, aperture and ISO without disrupting
-                    lightweight HDR+ support. Further configuration / tuning over the algorithms
-                    will be provided in the future. Direct manual control doesn't make much sense
-                    with the modern camera stack and isn't planned.</p>
-
-                    <p>CameraX only recently gained official support for video recording in
-                    October 2021 and there are still some quirks. The preview can sometimes end up
-                    misaligned but the recorded videos won't be impacted. 16:9 is currently the
-                    only supported video aspect ratio. 1080p (FHD) is the default but 2160p (UHD)
-                    is supported. CameraX UHD support may be buggy on some devices.</p>
+                    lightweight HDR+ support. Further configuration / tuning will be provided in
+                    the future.</p>
 
                     <p>The QR scanning mode only scans within the scanning square marked on the
                     screen. The QR code should be aligned with the edges of the square but can
@@ -583,11 +593,14 @@
                     supported. It's a very quick and high quality QR scanner able to easily scan
                     very high density QR codes from Pixels. Every 2 seconds, it will refresh auto
                     focus, auto exposure and auto white balance on the scanning square. It has
-                    full support for zooming in and out. Support for other kinds of barcodes will
-                    be added in the future, but adding them transparently would result in getting
-                    false positives and would substantially harm the QR scanning capability. It
-                    will need to be done in a way offering more control without having an overly
-                    complex user interface.</p>
+                    full support for zooming in and out. The torch can be toggled with the button
+                    at the bottom center. The auto toggle at the bottom left can be used to toggle
+                    scanning for all supported barcode types. Alternatively, you can select which
+                    barcode types it should scan via the menu at the top. It only scans QR codes
+                    by default since that provides quick and reliable scanning. Most other types
+                    of barcodes can result in false positives. Each enabled type will slow down
+                    the scanning and will make it more prone to false positives especially with
+                    difficult to scan barcodes such as a dense QR code.</p>
 
                     <p>Camera permission is the only one that's required. Images and videos are
                     stored via the Media Store API so media/storage permissions aren't required.
@@ -595,19 +608,25 @@
                     when including audio is disabled. Location permission is only needed if you
                     explicitly enabling location tagging, which is an experimental feature.</p>
 
-                    <p>Captured images currently include an EXIF timestamp, the phone model and an
-                    abstraction of the exposure configuration. This will become fully optional in
-                    the future and will likely be opt-in rather than opt-out. EXIF orientation
-                    data is crucial for setting the proper orientation of the image. Videos have
-                    their own similar metadata.</p>
+                    <p>By default, EXIF metadata is stripped for captured images and only includes
+                    the orientation. Stripping metadata for videos is planned but not supported
+                    yet. Orientation metadata isn't stripped since it's fully visible from how the
+                    image is displayed so it doesn't count as hidden metadata and is needed for
+                    proper display. You can toggle off stripping EXIF metadata in the More
+                    Settings menu opened from the settings dialog. Disabling metadata stripping
+                    will leave the timestamp, phone model, exposure configuration and other
+                    metadata. Location tagging is disabled by default and won't be stripped if you
+                    enable it.</p>
                 </section>
 
                 <section id="google-camera">
                     <h3><a href="#google-camera">Google Camera</a></h3>
 
-                    <p>Google Camera can be used with the <a href="#sandboxed-play-services">sandboxed
-                    Play services compatibility layer</a> and can take full advantage of the
-                    available cameras and image processing hardware as it can on the stock OS.</p>
+                    <p>Google Camera can be used with the <a href="#sandboxed-google-play">sandboxed
+                    Google Play compatibility layer</a> and can take full advantage of the
+                    available cameras and image processing hardware as it can on the stock OS. It
+                    currently only depends on GSF and can be used without Play services (GMS) or
+                    the Play Store.</p>
 
                     <p>We aim to reduce the benefits of Google Camera compared to GrapheneOS
                     Camera over time, especially on Pixels. Many features of Google Camera will
@@ -632,7 +651,7 @@
                 using the traditional Zygote spawning model. This improves privacy and security at the
                 expense of higher cold start app spawning time and higher initial memory usage. It
                 doesn't impact runtime performance beyond the initial spawning time. It adds somewhere
-                in the ballpark of 100ms to app spawning time on the flagship devices and is only very
+                in the ballpark of 200ms to app spawning time on the flagship devices and is only very
                 noticeable on lower-end devices with a weaker CPU and slower storage. The spawning
                 time impact only applies when the app doesn't already have an app process and the OS
                 will try to keep app processes cached in the background until memory pressure forces
@@ -653,6 +672,13 @@
                 with privileges reserved for OS components. The Zygote template is reused across user
                 profiles, so it also provides a temporary set of device identifiers across profiles
                 for each boot via the shared randomized values.</p>
+
+                <p>This feature can be disabled via Settings ➔ Security ➔ Enable secure app
+                spawning if you prefer to have faster cold start app spawning time and lower app
+                process memory usage instead of the substantial security benefits and the removal
+                of the only known remaining direct device identifiers across profiles (i.e. not
+                depending on fingerprinting global configuration, available storage space, etc. or
+                using side channels).</p>
             </section>
 
             <section id="bugs-uncovered-by-security-features">
@@ -682,8 +708,9 @@
                 reproducing the issue and then capture a bug report via the 'Take bug report'
                 feature in Developer options. Report an issue to <a
                 href="https://github.com/GrapheneOS/os-issue-tracker/issues">the GrapheneOS OS
-                issue tracker</a> and email the bug report capture zip to contact@grapheneos.org
-                with the issue tracker number in the subject like "Bug report capture for issue
+                issue tracker</a> and email the bug report capture zip to <a
+                href="mailto:contact@grapheneos.org">contact@grapheneos.org</a> with the
+                issue tracker number in the subject like "Bug report capture for issue
                 #104". The bug report capture includes plain text 'tombstones' with logs,
                 tracebacks, address space layout, register content and a tiny bit of context
                 from memory from areas that are interesting for debugging.  This may contain
@@ -699,8 +726,8 @@
                 <p>Wi-Fi on GrapheneOS is very privacy-friendly and is essentially anonymous as long
                 as apps do not leak uniquely identifying information to the network. GrapheneOS avoids
                 allowing itself to be fingerprinted as GrapheneOS, other than connections which are
-                documented (see the FAQ) and can be easily disabled or forced through a VPN
-                service.</p>
+                documented (see the <a href="/faq#default-connections">default connections FAQ</a>)
+                and can be easily disabled or forced through a VPN service.</p>
 
                 <section id="wifi-privacy-scanning">
                     <h3><a href="#wifi-privacy-scanning">Scanning</a></h3>
@@ -721,24 +748,24 @@
                     privacy rather than increasing it. If you need to use a hidden AP, make sure
                     to delete the saved network afterwards.</p>
 
-                    <p>Wi-Fi and Bluetooth scanning for improving location detection are disabled by
-                    default, unlike the stock OS. These can be toggled in Settings ➔ Location ➔ Wi-Fi and
-                    Bluetooth scanning. These features enable scanning even when Wi-Fi or Bluetooth is
-                    disabled, so these need to be kept disabled to fully disable the radios when Wi-Fi and
-                    Bluetooth are disabled. GrapheneOS doesn't yet have an implementation of a coarse
-                    location service to supplement GPS location, so enabling these options doesn't
-                    actually do anything at the moment. Implementing a supplementary location service is
-                    planned but we need a robust, secure and private implementation via a local database.
-                    The initial focus will likely be a cell phone tower database, so these features still
-                    wouldn't be relevant.</p>
+                    <p>Wi-Fi and Bluetooth scanning for improving location detection are disabled
+                    by default, unlike the stock OS. These can be toggled in Settings ➔ Location ➔
+                    Location Services ➔ Wi-Fi and Bluetooth scanning. These features enable
+                    scanning even when Wi-Fi or Bluetooth is disabled, so these need to be kept
+                    disabled to fully disable the radios when Wi-Fi and Bluetooth are disabled.
+                    GrapheneOS itself doesn't currently include a supplementary location service
+                    based on Wi-Fi and Bluetooth scanning. These options impact whether apps such
+                    as sandboxed Google Play are able to use the functionality if you grant them
+                    the Location permission. GrapheneOS plans to eventually include an OS service
+                    based on local databases rather than a network-based service giving the user's
+                    location to a server whenever location is being used.</p>
                 </section>
 
                 <section id="wifi-privacy-associated">
                     <h3><a href="#wifi-privacy-associated">Associated with an Access Point (AP)</a></h3>
 
                     <p>Associated MAC randomization is performed by default. This can be controlled
-                    per-network with Settings ➔ Network &amp; Internet ➔ Wi-Fi ➔ &lt;network&gt; ➔
-                    Advanced  ➔ Privacy.</p>
+                    per-network in Settings ➔ Network &amp; Internet ➔ Internet ➔ &lt;network&gt; ➔ Privacy.</p>
 
                     <p>In the stock OS, the default is to use a unique persistent random MAC address for
                     each network. It has 2 options available: "Use randomized MAC (default)" and "Use
@@ -765,13 +792,15 @@
                 <h2><a href="#lte-only-mode">LTE-only mode</a></h2>
 
                 <p>If you have a reliable LTE connection from your carrier, you can reduce attack
-                surface by disabling 2G, 3G and 5G connectivity in Settings ➔ Network &amp; Internet ➔
-                Mobile network ➔ Preferred network type. Traditional voice calls will only work in
-                the LTE-only mode if you have either an LTE connection and VoLTE (Voice over LTE)
-                support or a Wi-Fi connection and VoWi-Fi (Voice over Wi-Fi) support. VoLTE /
+                surface by disabling 2G, 3G and 5G connectivity in Settings ➔ Network &amp;
+                Internet ➔ SIMs ➔ Preferred network type. Traditional voice calls will only work
+                in the LTE-only mode if you have either an LTE connection and VoLTE (Voice over
+                LTE) support or a Wi-Fi connection and VoWi-Fi (Voice over Wi-Fi) support. VoLTE /
                 VoWi-Fi works on GrapheneOS for most carriers unless they restrict it to carrier
-                phones. US carriers other than T-Mobile tend to be missing these features due to
-                us not including their proprietary apps.</p>
+                phones. Some carriers may be missing VoWi-Fi due to us not including their
+                proprietary apps. Please note that AT&amp;T users may see "5Ge" being used when
+                LTE Only mode is enabled as AT&amp;T intentionally mislabel LTE services as "5Ge"
+                to mislead users.</p>
 
                 <p>This feature is not intended to improve the confidentiality of traditional calls and
                 texts, but it might somewhat raise the bar for some forms of interception. It's not a
@@ -781,32 +810,32 @@
                 exploitation by disabling an enormous amount of legacy code.</p>
             </section>
 
-            <section id="sandboxed-play-services">
-                <h2><a href="#sandboxed-play-services">Sandboxed Play services</a></h2>
+            <section id="sandboxed-google-play">
+                <h2><a href="#sandboxed-google-play">Sandboxed Google Play</a></h2>
 
                 <p>GrapheneOS has a compatibility layer providing the option to install and use
-                the official releases of Play services in the standard app sandbox. Play services
+                the official releases of Google Play in the standard app sandbox. Google Play
                 receives absolutely no special access or privileges on GrapheneOS as opposed to
                 bypassing the app sandbox and receiving a massive amount of highly privileged
                 access. Instead, the compatibility layer teaches it how to work within the full
                 app sandbox. It also isn't used as a backend for the OS services as it would be
-                elsewhere since GrapheneOS doesn't use Play services even when it's installed.</p>
+                elsewhere since GrapheneOS doesn't use Google Play even when it's installed.</p>
 
-                <p>Since the Play services apps are simply regular apps on GrapheneOS, you install
+                <p>Since the Google Play apps are simply regular apps on GrapheneOS, you install
                 them within a specific user or work profile and they're only available within that
                 profile. Only apps within the same profile can use it and they need to explicitly
                 choose to use it. It works the same way as any other app and has no special
                 capabilities. As with any other app, it can't access data of other apps and
                 requires explicit user consent to gain access to profile data or the standard
                 permissions. Apps within the same profile can communicate with mutual consent and
-                it's no different for sandboxed Play services.</p>
+                it's no different for sandboxed Google Play.</p>
 
                 <p>The core functionality and APIs are almost entirely supported already since
                 GrapheneOS largely only has to coerce these apps into continuing to run without
                 being able to use any of the usual invasive OS integration. A compatibility layer
                 is also provided to support dynamically downloaded/loaded modules (dynamite
                 modules). The compatibility layer will be gradually expanded and improved in order
-                to get more of the Play services functionality working.</p>
+                to get more of the Google Play functionality working.</p>
 
                 <p>GrapheneOS provides a dedicated compatibility layer for Play Store app
                 installation/updates/removal teaching it to use the standard unprivileged approach
@@ -816,44 +845,45 @@
                 updates of modern (API 29+) apps where it was the installer for the currently
                 installed version already.</p>
 
-                <section id="sandboxed-play-services-installation">
-                    <h3><a href="#sandboxed-play-services-installation">Installation</a></h3>
+                <section id="sandboxed-google-play-installation">
+                    <h3><a href="#sandboxed-google-play-installation">Installation</a></h3>
 
-                    <p>Play services is divided up into 3 separate apps: Google Services Framework
-                    (com.google.android.gsf), Google Play services (com.google.android.gms) and
-                    Google Play Store (com.android.vending). To use sandboxed Play services, you
-                    simply need to install the official releases of these 3 apps in the user and
-                    work profiles where you want to use it.</p>
+                    <p>Google Play is divided up into 3 separate apps:</p>
+
+                    <ul>
+                        <li>Google Services Framework (com.google.android.gsf)</li>
+                        <li>Google Play services (com.google.android.gms)</li>
+                        <li>Google Play Store (com.android.vending)</li>
+                    </ul>
+
+                    <p>To use sandboxed Google Play, you simply need to install the official releases
+                    of these 3 apps in the user and work profiles where you want to use it.</p>
 
                     <p>The simplest approach is to only use the Owner user profile. Apps installed
                     in the Owner profile are sandboxed the same way as everywhere else and don't
-                    receive any special access. If you want to choose which apps use Play services
+                    receive any special access. If you want to choose which apps use Google Play
                     rather than making it available to all of them, install it in a separate user
-                    or work profile for apps depending on Play services. You could also do it the
+                    or work profile for apps depending on Google Play. You could also do it the
                     other way around, but it makes more sense to try to use as much as possible
-                    without Play services rather than treating not using it as the exceptional
+                    without Google Play rather than treating not using it as the exceptional
                     case.</p>
 
-                    <p>Install com.google.android.gsf, then com.google.android.gms and finally use
-                    a split APK installer to install all 5 of the APKs for com.android.vending
-                    together. Make sure to install all 3 in the correct order and don't skip
-                    installing the Play Store since it provides services used by apps depending on
-                    Play. You can obtain a split APK installer app from either Aurora Store,
-                    F-Droid or the developers of the app via their GitHub releases, etc.</p>
-
-                    <p>In the future, we'll have a client app for our repository so you'll be able
-                    to install and update the official Play services apps through that app and you
-                    won't need to deal with split APK installation manually.</p>
-
-                    <ul>
-                        <li><a href="https://apps.grapheneos.org/packages/com.google.android.gsf/">com.google.android.gsf</a></li>
-                        <li><a href="https://apps.grapheneos.org/packages/com.google.android.gms/">com.google.android.gms</a></li>
-                        <li><a href="https://apps.grapheneos.org/packages/com.android.vending/">com.android.vending</a></li>
-                    </ul>
+                    <p>You can open our app repository client (Apps) and install the 3 core Google
+                    Play apps mirrored in our repository. Our app repository client has support
+                    for dependency installation so you can simply directly install the Play Store
+                    and it will install GSF and then GMS as dependencies.</p>
 
                     <p>You should give a battery optimization exception to Google Play services
                     for features like push notifications to work properly in the background. It
                     isn't needed for the other 2 apps.</p>
+
+                    <p>The Play Store provides many services used by apps including Play Asset
+                    Delivery, Play Feature Delivery, in-app purchases and license checks for paid
+                    apps. You can use sandboxed Google Play without the Play Store but many apps
+                    won't work correctly without it. The Play Store app is also the most secure
+                    way to install and update apps from the Play Store. Installing it is highly
+                    recommended for general purpose usage but you can install only GSF or only
+                    GSF/GMS if you know it's all you need for what you want to use.</p>
 
                     <p>After installing the apps, you should open the Play Store and press sign in
                     to trigger initialization. Signing into an account is optional and it will
@@ -861,36 +891,104 @@
                     currently the best way to mimic the initialization done by the stock OS setup
                     wizard.</p>
 
-                    <p>You can obtain updates to these apps from our repository which will be easy
-                    once we have a client app. The Play Store app can also be used to update
-                    Google Play services and itself. Updates to the Google Services Framework
-                    (com.google.android.gsf) app are normally only distributed through OS updates
-                    so you need to get those from our repository.</p>
+                    <p>You can obtain updates to these apps from our app repository client. Our
+                    compatibility layer supports the Play Store updating itself and also Play
+                    services but we've chosen to block it from being able to update them in order
+                    to ship the updates through our repository after testing them. They use long
+                    staged rollouts for these app updates and it results in confusion when users
+                    can't install older versions in another user, which is resolved by us handling
+                    the updates ourselves.</p>
+
+                    <p>Our compatibility layer has support for Play Games Services which you can
+                    obtain by installing Google Play Games from the Play Store. Many games on the
+                    Play Store depend on having Google Play Games installed.</p>
                 </section>
 
-                <section id="sandboxed-play-services-limitations">
-                    <h3><a href="#sandboxed-play-services-limitations">Limitations</a></h3>
+                <section id="sandboxed-google-play-configuration">
+                    <h3><a href="#sandboxed-google-play-configuration">Configuration</a></h3>
 
-                    <p>Functionality depending on privileged access such as special access to
-                    hardware isn't available. We would need to implement compatibility layers
-                    teaching it how to function as a regular app. This currently isn't within the
-                    scope of the project beyond the existing support for dynamite modules and
-                    partially implemented support for Play Store app installation/updates. The
-                    official Android Auto interface is a good example of functionality heavily
-                    depending on having highly invasive privileged access beyond what would be
-                    realistic to get working with an expanded compatibility layer.</p>
+                    <p>The compatibility layer has a configuration menu available at Settings ➔
+                    Apps ➔ Sandboxed Google Play.</p>
+
+                    <p>By default, apps using Google Play geolocation are redirected to our own
+                    implementation on top of the standard OS geolocation service. If you want to
+                    use Google's geolocation service instead, you can disable the "Reroute
+                    location requests to OS APIs" toggle and manually grant "Allow all the time"
+                    Location access to Google Play services. For it to be fully functional, you
+                    also need to use "Google Location Accuracy" link to access the Google Play
+                    services menu for opting into their network location service. This will send
+                    the nearby Wi-Fi and cellular networks provided via the Location permission to
+                    their service to retrieve a location estimate. The Nearby Devices permission
+                    can also be granted to give it access to nearby Bluetooth device IDs. If you
+                    stick with the default enabled redirection mode, none of this needs to be
+                    granted for working geolocation in apps. In order to fully take advantage of
+                    Wi-Fi and Bluetooth scanning, you also need to enable the scanning toggles in
+                    Settings ➔ Location ➔ Location services which are disabled by default rather
+                    than enabled by default like the stock OS.</p>
+
+                    <p>Re-routing location to the OS geolocation service will use more power than
+                    using the Google Play geolocation service since we do not provide a
+                    network-based location service and implement it via GNSS / A-GPS only. In the
+                    future, we plan on providing a pseudo-network geolocation service for the OS
+                    by using a local database of cell towers, and the location redirection feature
+                    can also make use of this future OS implementation for network location
+                    requests once it's available.</p>
+
+                    <p>The Google Location Accuracy and Google settings activities would normally
+                    be integrated into the OS but we don't include any of the standard Google Play
+                    integration so there needs to be an app providing a way to access them.</p>
+
+                    <p>The menu also provides links to this usage guide, Play services system
+                    settings, Play Store system settings and Google settings. The Play services
+                    and Play Store system settings are only included for convenience since they
+                    can be accessed the same way as any other app via Settings ➔ Apps.</p>
+                </section>
+
+                <section id="sandboxed-google-play-limitations">
+                    <h3><a href="#sandboxed-google-play-limitations">Limitations</a></h3>
+
+                    <p>Our compatibility layer has to be expanded on a case-by-case basis to teach
+                    Play services to work as a regular app without any of the invasive access
+                    and integration it expects. In many cases, it doesn't truly need the access or
+                    we can teach it to use the regular approach available to a normal app. In some
+                    cases, the functionality it offers fundamentally requires privileged
+                    access and cannot be supported. For example, it's unlikely Android Auto will be
+                    supported. The same applies to other highly invasive OS integration / control
+                    or privileged access to hardware. There are also a lot of features such as the
+                    FIDO2 security key support which could be made to fully work despite reliance
+                    on a lot of privileged APIs (their FIDO2 service is partially working
+                    already). In the case of FIDO2, we could also eventually support redirecting
+                    to our own implementation similarly to how we do that by default for
+                    geolocation. Our compatibility layer is a very actively developed work in
+                    progress and most of the remaining unavailable functionality is quickly
+                    becoming supported.</p>
+
+                    <p>Functionality depending on the OS integrating Play services and using it as
+                    a backend is unavailable. An OS integrating Play uses it as the backend for OS
+                    services such as geolocation. GrapheneOS never uses it as the backend/provider
+                    for OS services. In cases such as text-to-speech (TTS) where the OS allows the
+                    user to choose the provider, Play services can often be used. It's on a level
+                    playing field with other apps on GrapheneOS.</p>
 
                     <p>Play Store assumes that uninstallation always succeeds so it will stall if
                     it tries to uninstall an app and you reject it. You can work around this by
                     force stopping and then reopening it.</p>
+                </section>
 
-                    <p>Play Store feature delivery isn't currently supported, but this isn't
-                    broadly used by current generation apps aside from large games.</p>
+                <section id="sandboxed-google-play-esim">
+                    <h3><a href="#sandboxed-google-play-esim">Privileged eSIM management</a></h3>
 
-                    <p>Since there's no OS integration beyond fallback code to make it function
-                    without any special privileges, there isn't a way to launch the Play services
-                    settings activity. We'll need to make a tiny app providing a way to launch
-                    it.</p>
+                    <p>By default GrapheneOS always has shipped with baseline support for eSIM,
+                    where users can use any eSIMs installed previously on the device. However, in
+                    order to manage and add eSIMs, proprietary Google functionality is needed. This
+                    is fully disabled by default.</p>
+
+                    <p>Privileged eSIM management can be enabled in Settings ➔ Network &amp; 
+                    Internet ➔ Privileged eSIM management. The toggle will be greyed out and unusable
+                    if sandboxed Google Play is not installed, as the functionality is reliant on it.</p>
+
+                    <p>By enabling the toggle, the proprietary Google functionality is enabled and
+                    will be used by the OS to provision and manage eSIMs.</p>
                 </section>
             </section>
 
@@ -900,7 +998,7 @@
                 <p>Banking apps are a particularly problematic class of apps for compatibility
                 with alternate operating systems. Some of these work fine with any GrapheneOS
                 configuration but most of them have extensive dependencies on Play services. For
-                many of these apps, it's enough to set up the GrapheneOS sandboxed Play services
+                many of these apps, it's enough to set up the GrapheneOS sandboxed Google Play
                 feature in the same profile. Unfortunately, there are further complications not
                 generally encountered with non-financial apps.</p>
 
@@ -928,11 +1026,115 @@
                 enforce using Google certified operating systems. However, app developers can use
                 it directly and permit other properly signed operating systems upholding the
                 security model. GrapheneOS has a
-                <a href="https://grapheneos.org/articles/attestation-compatibility-guide">a
+                <a href="https://grapheneos.org/articles/attestation-compatibility-guide">
                 detailed guide</a> for app developers on how to support GrapheneOS with the
                 hardware attestation API. Direct use of the hardware attestation API provides much
                 higher assurance than using SafetyNet so these apps have nothing to lose by using a
                 more meaningful API and supporting a more secure OS.</p>
+            </section>
+
+            <section id="app-link-verification">
+                <h2><a href="#app-link-verification">App link verification</a></h2>
+
+                <p>Android apps can declare associations with domains in order to handle those
+                URLs in the app automatically. For security reasons, app links are disabled by
+                default to prevent apps intercepting arbitrary URLs. First party apps associated
+                with a domain are expected to be authorized by the domain. Apps can ask for their
+                app links to be verified by the OS by marking them with <code>autoVerify</code> in
+                their manifest. The OS will securely confirm that the domain authorizes the app to
+                handle the domain's URLs. Users can also manually enable an app's link
+                associations via Settings ➔ Apps ➔ App name ➔ Open by default ➔ Add link. Apps can
+                ask users to enable the associations and send them to this page in the Settings
+                app.</p>
+
+                <p>As an example, the first party YouTube app will have the app links verified by
+                the OS automatically while the NewPipe app requires manually enabling handling
+                links for YouTube and other sites.</p>
+
+                <p>Verification of app links by the OS is done by the Intent Filter Verification
+                Service system app. It will use an HTTPS GET request to fetch
+                <code>https://example.com/.well-known/assetlinks.json</code> in order to process a
+                request to verify that an app can handle <code>example.com</code> links. The app
+                needs to have their app id and signing keys authorized by the domain in order for
+                the verification to succeed.</p>
+
+                <p>These network requests by the Intent Filter Verification Service to verify app
+                associations with domains are commonly confused for network requests made by the
+                apps. It's simply an HTTPS GET request without identifying information and doesn't
+                offer a communication channel with the app. Redirects won't be followed so there
+                will be a single request for each attempt to verify a domain.</p>
+
+                <p>If you don't want automatic app link verification, you can disable the Network
+                permission added by GrapheneOS for the Intent Filter Verification Service system
+                app. In the future, we may provide a way to disable verification directly instead
+                of stopping it from working. It will make heavily throttled attempts to verify a
+                domain after the check failed which won't negatively impact battery life due to
+                the conservative JobScheduler-based implementation.</p>
+
+                <p>For more details, see the
+                <a href="https://developer.android.com/training/app-links/verify-site-associations">developer
+                documentation on app link verification</a>.</p>
+            </section>
+
+            <section id="carrier-functionality">
+                <h2><a href="#carrier-functionality">Carrier functionality</a></h2>
+
+                <p>GrapheneOS aims to work with all carriers that are officially supported by Google
+                on the stock operating system on Pixel devices. Wi-Fi Calling, VoLTE, Visual Voicemail,
+                MMS, SMS, Calling and 5G (SA and NSA) all are supported, however some functionality may
+                not be usable due to Google not supporting carriers on the stock OS officially or
+                due to GrapheneOS not shipping proprietary apps required in order for this
+                functionality to work on some carriers. GrapheneOS extracts CarrierConfigs, APNs,
+                modem configurations, Visual Voicemail configurations and MMS configurations from the
+                stock operating system to ensure users get easy carrier support that "just works".</p>
+
+                <p>Please note that in some regions, LTE is referred to as 4G.</p>
+
+                <p>Generally 5G, SMS, MMS, Calls and VoLTE will work fine on GrapheneOS
+                with officially supported carriers by Google. Wi-Fi calling may vary due to a reliance
+                on proprietary Google apps which GrapheneOS does not ship.</p>
+
+                <p>If you are having issues with Visual Voicemail, please be aware that AT&amp;T USA 
+                users are unable to use this feature currently due to a lack of AOSP support. Other 
+                carriers are done on a best effort basis. We would suggest using <a href="https://play.google.com/store/apps/details?id=com.google.android.dialer">Google Dialer</a> 
+                with sandboxed Google Play if you are unable to get this feature working.</p>
+                
+                <p>If you are having problems sending or receiving SMS/MMS messages, we suggest that 
+                you perform the following steps:</p>
+
+                <ul>
+                    <li>Deregister your phone number from <a href="https://selfsolve.apple.com/deregister-imessage">Apple iMessage</a></li>
+                    <li>Deregister your phone number from <a href="https://messages.google.com/disable-chat">Google Chat Features</a></li>
+                    <li>Deregister your phone number from your carrier's RCS service (Not all carriers have this)</li>
+                </ul>
+
+                <p>If you continue to have problems despite following the instructions above or you 
+                have another carrier related issue, we suggest that you perform the following steps:</p>
+
+                <ul>
+                    <li>Some carriers require you to explicitly opt in to use services such as Wi-Fi calling.
+                        Consult your carrier's documentation on the process for this or contact them.</li>
+                    <li>Reset Mobile Network settings in Settings ➔ System ➔ Reset options ➔ Reset Wi-Fi,
+                        mobile &amp; Bluetooth and then reboot the device.</li>
+                    <li>USA users only: You may need to request your carrier to enable CDMA-less mode if
+                        you have issues.</li>
+                    <li>Follow your carrier's instructions for setting up APNs, this can be found in
+                        Settings ➔ Network &amp; Internet ➔ SIMs ➔ Access Point Names</li>
+                    <li>If calls do not work and you have <a href="#lte-only-mode">LTE-only mode</a> enabled,
+                        try toggling it off. Your carrier may not properly support VoLTE.</li>
+                    <li>As a last resort you may need to ask your carrier for a replacement SIM card.</li>
+                </ul>
+                
+                <p>Some carriers may restrict functionality, such as VoLTE, on imported Pixel devices as they only 
+                whitelist the IMEI ranges of Pixel device SKUs which were sold locally. You can check your 
+                SKU on GrapheneOS by going to Settings ➔ About phone ➔ Model ➔ Hardware SKU and using the
+                <a href="https://support.google.com/pixelphone/answer/7158570">official Google documentation</a>. You should check if such functionality works on the stock OS to troubleshoot.
+                It is not possible to change the IMEI on a production device and GrapheneOS will never add
+                support for this.</p>
+                
+                <p>GrapheneOS includes bypasses for carrier restrictions on APN editing, tethering via
+                USB, Ethernet, Bluetooth and Wi-Fi and the ability to disable 2G, actions which would not
+                necessarily have been possible on the stock operating system.</p>
             </section>
         </main>
         <footer>
