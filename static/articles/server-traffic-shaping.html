@@ -22,31 +22,15 @@
         <link rel="canonical" href="https://grapheneos.org/articles/server-traffic-shaping"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
+        <link rel="mask-icon" href="[[path|/mask-icon.svg]]" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        {{css|/main.css}}
+        [[css|/main.css]]
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
+        <link rel="me" href="https://grapheneos.social/@GrapheneOS"/>
     </head>
     <body>
-        <header>
-            <nav id="site-menu">
-                <ul>
-                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
-                    <li><a href="/features">Features</a></li>
-                    <li><a href="/install/">Install</a></li>
-                    <li><a href="/build">Build</a></li>
-                    <li><a href="/usage">Usage</a></li>
-                    <li><a href="/faq">FAQ</a></li>
-                    <li><a href="/releases">Releases</a></li>
-                    <li><a href="/source">Source</a></li>
-                    <li><a href="/history/">History</a></li>
-                    <li><a href="/articles/">Articles</a></li>
-                    <li><a href="/donate">Donate</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
+        {% include "header.html" %}
         <main id="server-traffic-shaping">
             <h1><a href="#server-traffic-shaping">Server traffic shaping</a></h1>
 
@@ -79,7 +63,7 @@
                 configuration file shipped with systemd, so <em>most</em> distributions using
                 systemd as init end up with a sane default. Debian removes that configuration and
                 doesn't set a sane default itself, and is widely used. Many server providers like
-                OVH do not appear to use consistently use modern queue disciplines like
+                OVH do not appear to consistently use modern queue disciplines like
                 <code>fq_codel</code> within their networks, particularly at artificial
                 bottlenecks implementing rate limiting based on product tiers.</p>
 
@@ -193,6 +177,14 @@
                 The backlog shouldn't be draining to near zero under full bandwidth usage as that
                 indicates the bottleneck is the server application itself or a different network
                 bottleneck.</p>
+
+                <p>If you use systemd-network, you can add a CAKE configuration section to the
+                network configuration file instead of manually running the <code>tc</code> command
+                with a <code>Type=oneshot</code> service on boot:</p>
+
+                <pre>[CAKE]
+Bandwidth=1995M
+PriorityQueueingPreset=besteffort</pre>
             </section>
 
             <section id="quicker-backpressure-propagation">
@@ -236,6 +228,20 @@
                 empty.</p>
             </section>
 
+            <section id="high-link-speed">
+                <h2><a href="#high-link-speed">High link speed</a></h2>
+
+                <p>By default, CAKE splits General Segmentation Offload (GSO) super-packets to
+                reduce latency at the expense of CPU efficiency and throughput. This can create a
+                bottleneck at high link speeds. We've had to disable this on the 2Gbit GrapheneOS
+                update servers.</p>
+
+                <pre>[CAKE]
+Bandwidth=1995M
+PriorityQueueingPreset=besteffort
+SplitGSO=false</pre>
+            </section>
+
             <section id="future">
                 <h2><a href="#future">Future</a></h2>
 
@@ -248,14 +254,6 @@
                 streams.</p>
             </section>
         </main>
-        <footer>
-            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
-            <ul id="social">
-                <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
-                <li><a href="https://github.com/GrapheneOS">GitHub</a></li>
-                <li><a href="https://reddit.com/r/GrapheneOS">Reddit</a></li>
-                <li><a href="https://www.linkedin.com/company/grapheneos/">LinkedIn</a></li>
-            </ul>
-        </footer>
+        {% include "footer.html" %}
     </body>
 </html>

@@ -22,34 +22,18 @@
         <link rel="canonical" href="https://grapheneos.org/install/web"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
+        <link rel="mask-icon" href="[[path|/mask-icon.svg]]" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        {{css|/main.css}}
+        [[css|/main.css]]
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
-        {{js|/js/redirect.js}}
-        <script type="module" src="/js/fastboot/v1.1.1/fastboot.min.mjs" integrity="sha256-OXtHjW8CO7yw1L2Od6fGK7WVTCMl7Zghu24DZDNCBjI="></script>
-        {{js|/js/web-install.js}}
+        <link rel="me" href="https://grapheneos.social/@GrapheneOS"/>
+        [[js|/js/redirect.js]]
+        <script type="module" src="/js/fastboot/066d736d/fastboot.min.mjs" integrity="sha256-mH1JDLfpm9jffXPX8pRlbJtTYkMcXN7LSLXNhCM9P4E="></script>
+        [[js|/js/web-install.js]]
     </head>
     <body>
-        <header>
-            <nav id="site-menu">
-                <ul>
-                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
-                    <li><a href="/features">Features</a></li>
-                    <li><a href="/install/">Install</a></li>
-                    <li><a href="/build">Build</a></li>
-                    <li><a href="/usage">Usage</a></li>
-                    <li><a href="/faq">FAQ</a></li>
-                    <li><a href="/releases">Releases</a></li>
-                    <li><a href="/source">Source</a></li>
-                    <li><a href="/history/">History</a></li>
-                    <li><a href="/articles/">Articles</a></li>
-                    <li><a href="/donate">Donate</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
+        {% include "header.html" %}
         <main id="web-install">
             <h1><a href="#web-install">Web installer</a></h1>
 
@@ -70,8 +54,9 @@
                     <li><a href="#prerequisites">Prerequisites</a></li>
                     <li><a href="#enabling-oem-unlocking">Enabling OEM unlocking</a></li>
                     <li><a href="#flashing-as-non-root">Flashing as non-root</a></li>
+                    <li><a href="#working-around-fwupd-bug-on-linux-distributions">Working around fwupd bug on Linux distributions</a></li>
                     <li><a href="#booting-into-the-bootloader-interface">Booting into the bootloader interface</a></li>
-                    <li><a href="#connecting-phone">Connecting the phone</a></li>
+                    <li><a href="#connecting-device">Connecting the device</a></li>
                     <li><a href="#unlocking-the-bootloader">Unlocking the bootloader</a></li>
                     <li><a href="#obtaining-factory-images">Obtaining factory images</a></li>
                     <li><a href="#flashing-factory-images">Flashing factory images</a></li>
@@ -81,7 +66,13 @@
                         <ul>
                             <li><a href="#booting">Booting</a></li>
                             <li><a href="#disabling-oem-unlocking">Disabling OEM unlocking</a></li>
-                            <li><a href="#verifying-installation">Verifying installation</a></li>
+                            <li>
+                                <a href="#verifying-installation">Verifying installation</a>
+                                <ul>
+                                    <li><a href="#verified-boot-key-hash">Verified boot key hash</a></li>
+                                    <li><a href="#hardware-based-attestation">Hardware-based attestation</a></li>
+                                </ul>
+                            </li>
                             <li><a href="#replacing-grapheneos-with-the-stock-os">Replacing GrapheneOS with the stock OS</a></li>
                             <li><a href="#further-information">Further information</a></li>
                         </ul>
@@ -113,17 +104,25 @@
                 <ul>
                     <li>Windows 10</li>
                     <li>Windows 11</li>
-                    <li>macOS Catalina</li>
-                    <li>macOS Big Sur</li>
-                    <li>macOS Monterey</li>
+                    <li>macOS Monterey (12)</li>
+                    <li>macOS Ventura (13)</li>
+                    <li>macOS Sonoma (14)</li>
                     <li>Arch Linux</li>
-                    <li>Debian 10 (buster)</li>
                     <li>Debian 11 (bullseye)</li>
+                    <li>Debian 12 (bookworm)</li>
                     <li>Ubuntu 20.04 LTS</li>
-                    <li>Ubuntu 21.10</li>
+                    <li>Ubuntu 22.04 LTS</li>
+                    <li>Ubuntu 23.04</li>
+                    <li>Ubuntu 23.10</li>
+                    <li>Linux Mint 20 (follow Ubuntu 20.04 LTS instructions)</li>
+                    <li>Linux Mint 21 (follow Ubuntu 22.04 LTS instructions)</li>
+                    <li>Linux Mint Debian Edition 6 (follow Debian 12 instructions)</li>
                     <li>ChromeOS</li>
                     <li>GrapheneOS</li>
-                    <li>Google Android (stock Pixel OS) and other certified Android variants</li>
+                    <li>Android 11 with Play Protect certification</li>
+                    <li>Android 12 with Play Protect certification</li>
+                    <li>Android 13 with Play Protect certification</li>
+                    <li>Android 14 with Play Protect certification</li>
                 </ul>
 
                 <p>Make sure your operating system is up-to-date before proceeding.</p>
@@ -132,12 +131,13 @@
 
                 <ul>
                     <li>Chromium (outside Ubuntu, since they ship a broken Snap package without working WebUSB)</li>
-                    <li>Bromite</li>
                     <li>Vanadium (GrapheneOS)</li>
                     <li>Google Chrome</li>
                     <li>Microsoft Edge</li>
-                    <li>Brave</li>
+                    <li>Brave (with Brave Shields disabled, since it caps storage usage at a low value to avoid fingerprinting available storage)</li>
                 </ul>
+
+                <p>You should avoid Flatpak and Snap versions of browsers, as they're known to cause issues during the installation process.</p>
 
                 <p>Make sure your browser is up-to-date before proceeding.</p>
 
@@ -157,7 +157,7 @@
                 and the hardware is the same.</p>
 
                 <p>It's best practice to update the device before installing GrapheneOS to have
-                the latest firmware for connecting the phone to the computer and performing the
+                the latest firmware for connecting the device to the computer and performing the
                 early flashing process. Either way, GrapheneOS flashes the latest firmware early
                 in the installation process.</p>
             </section>
@@ -167,13 +167,21 @@
 
                 <p>OEM unlocking needs to be enabled from within the operating system.</p>
 
-                <p>Enable the developer options menu by going to Settings ➔ About phone and
-                repeatedly pressing the build number menu entry until developer mode is
-                enabled.</p>
+                <p>Enable the developer options menu by going to <b>Settings&#160;<span
+                aria-label="and then">></span> About phone/tablet</b> and repeatedly
+                pressing the <b>Build number</b> menu entry until developer mode is enabled.</p>
 
-                <p>Next, go to Settings ➔ System ➔ Developer options and toggle on the 'OEM
-                unlocking' setting. This requires internet access on devices with Google Play
-                services as part of Factory Reset Protection (FRP) for anti-theft protection.</p>
+                <p>Next, go to <b>Settings&#160;<span aria-label="and then">></span>
+                System&#160;<span aria-label="and then">></span> Developer options</b> and
+                toggle on the <b>OEM unlocking</b> setting. On device model variants (SKUs) which
+                support being sold as locked devices by carriers, enabling <b>OEM unlocking</b>
+                requires internet access so that the stock OS can check if the device was sold as
+                locked by a carrier.</p>
+
+                <p>For the Pixel 6a, OEM unlocking won't work with the version of the stock OS
+                from the factory. You need to update it to the June 2022 release or later via an
+                over-the-air update. After you've updated it you'll also need to factory reset
+                the device to fix OEM unlocking.</p>
             </section>
 
             <section id="flashing-as-non-root">
@@ -187,24 +195,40 @@
                 Ubuntu, install the <code>android-sdk-platform-tools-common</code> package.</p>
             </section>
 
+            <section id="working-around-fwupd-bug-on-linux-distributions">
+                <h2><a href="#working-around-fwupd-bug-on-linux-distributions">Working around fwupd bug on Linux distributions</a></h2>
+
+                <p>Debian stable and Ubuntu have an outdated fwupd package with a bug breaking
+                connecting to Android's bootloader interface (fastboot) while fwupd is running
+                since it tries to connect to arbitrary devices. This section can be skipped on
+                Arch Linux and other distributions with fwupd 1.9.10 or later since we reported
+                the bug and it was fixed. This never impacted Android or ChromeOS.</p>
+
+                <p>You can stop fwupd with the following command:</p>
+
+                <pre>sudo systemctl stop fwupd.service</pre>
+
+                <p>This doesn't disable the service and it will start again on reboot.</p>
+            </section>
+
             <section id="booting-into-the-bootloader-interface">
                 <h2><a href="#booting-into-the-bootloader-interface">Booting into the bootloader interface</a></h2>
 
-                <p>You need to boot your phone into the bootloader interface. To do this, you need
-                to hold the volume down button while the phone boots.</p>
+                <p>You need to boot your device into the bootloader interface. To do this, you need
+                to hold the volume down button while the device boots.</p>
 
-                <p>The easiest approach is to reboot the phone and begin holding the volume down
+                <p>The easiest approach is to reboot the device and begin holding the volume down
                 button until it boots up into the bootloader interface.</p>
 
-                <p>Alternatively, turn off the phone, then boot it up while holding the volume
+                <p>Alternatively, turn off the device, then boot it up while holding the volume
                 down button during the boot process. You can either boot it with the power button
                 or by plugging it in as required in the next section.</p>
             </section>
 
-            <section id="connecting-phone">
-                <h2><a href="#connecting-phone">Connecting the phone</a></h2>
+            <section id="connecting-device">
+                <h2><a href="#connecting-device">Connecting the device</a></h2>
 
-                <p>Connect the phone to the computer. On Linux, you'll need to do this again if
+                <p>Connect the device to the computer. On Linux, you'll need to do this again if
                 you didn't have the udev rules set up when you connected it.</p>
 
                 <p>On Windows, you need to install a driver for fastboot if you don't already have
@@ -220,6 +244,10 @@
                 Pixels</a> from Google and then
                 <a href="https://developer.android.com/studio/run/oem-usb#InstallingDriver">manually
                 install it with the Windows Device Manager</a>.</p>
+
+                <p>For the Pixel Tablet, disconnect it from the stand before continuing. The stand
+                uses USB to provide charging and audio output, but the tablet lacks support for
+                using both the stand and USB port at the same time.</p>
             </section>
 
             <section id="unlocking-the-bootloader">
@@ -230,7 +258,7 @@
                 <button id="unlock-bootloader-button" disabled="">Unlock bootloader</button>
 
                 <p>The command needs to be confirmed on the device and will wipe all data. Use one
-                of the volume keys to switch the selection to accepting it and the power button to
+                of the volume buttons to switch the selection to accepting it and the power button to
                 confirm.</p>
 
                 <p><strong id="unlock-bootloader-status"></strong></p>
@@ -325,40 +353,98 @@
                 <section id="verifying-installation">
                     <h3><a href="#verifying-installation">Verifying installation</a></h3>
 
-                    <p>Verified boot authenticates and validates the firmware images and OS from the
-                    hardware root of trust. Since GrapheneOS supports full verified boot, the OS images
-                    are entirely verified. However, it's possible that the computer you used to flash the
-                    OS was compromised, leading to flashing a malicious verified boot public key and
-                    images. To detect this kind of attack, you can use the Auditor app included in
-                    GrapheneOS in the Auditee mode and verify it with another Android device in the
-                    Auditor mode.</p>
+                    <p>The verified boot and attestation features provided by the supported
+                    devices can be used to verify that the hardware, firmware and GrapheneOS
+                    installation are genuine. Even if the computer you used to flash GrapheneOS
+                    was compromised and an attacker replaced GrapheneOS with their own malicious
+                    OS, it can be detected with these features.</p>
 
-                    <p>The Auditor app works best once it's already paired with a device and has
-                    pinned a persistent hardware-backed key and the attestation certificate chain.
-                    However, it can still provide a bit of security for the initial verification
-                    via the attestation root. Ideally, you should also do this before connecting
-                    the device to the network, so an attacker can't proxy to another device (which
-                    stops being possible after the initial verification). Further protection
-                    against proxying the initial pairing will be provided in the future via
-                    optional support for ID attestation to include the serial number in the
-                    hardware verified information to allow checking against the one on the box /
-                    displayed in the bootloader. See the <a href="https://attestation.app/tutorial">Auditor tutorial</a>
-                    for a guide.</p>
+                    <p>Verified boot verifies the entirety of the firmware and OS images on every
+                    boot. The public key for the firmware images is burned into fuses in the SoC
+                    at the factory. Firmware security updates can also update the rollback index
+                    burned into fuses to provide rollback protection.</p>
 
-                    <p>After the initial verification, which results in pairing, performing verification
-                    again between the same Auditor and Auditee (as long as the app data hasn't been
-                    cleared) will provide strong validation of the identity and integrity of the
-                    device. That makes it best to get the pairing done right after installation. You can
-                    also consider setting up the optional remote attestation service.</p>
+                    <p>The final firmware boot stage before the OS is responsible for verifying
+                    it. For the stock OS, it uses a hard-wired public key. Installing GrapheneOS
+                    flashes the GrapheneOS verified boot public key to the secure element. Each
+                    boot, this key is loaded and used to verify the OS. For both the stock OS and
+                    GrapheneOS, a rollback index based on the security patch level is loaded from
+                    the secure element to provide rollback protection.</p>
+
+                    <section id="verified-boot-key-hash">
+                        <h3><a href="#verified-boot-key-hash">Verified boot key hash</a></h3>
+
+                        <p>When loading an alternate OS, the device shows a yellow notice on boot
+                        with the ID of the alternate OS based on the sha256 of the verified boot
+                        public key. 4th and 5th generation Pixels only show the first 32 bits of
+                        the hash so you can't use this approach. 6th generation Pixels onwards
+                        show the full hash and you can compare it against the official GrapheneOS
+                        verified boot key hashes below:</p>
+
+                        <ul>
+                            <li>Pixel 8 Pro: <code>896db2d09d84e1d6bb747002b8a114950b946e5825772a9d48ba7eb01d118c1c</code></li>
+                            <li>Pixel 8: <code>cd7479653aa88208f9f03034810ef9b7b0af8a9d41e2000e458ac403a2acb233</code></li>
+                            <li>Pixel Fold: <code>ee0c9dfef6f55a878538b0dbf7e78e3bc3f1a13c8c44839b095fe26dd5fe2842</code></li>
+                            <li>Pixel Tablet: <code>94df136e6c6aa08dc26580af46f36419b5f9baf46039db076f5295b91aaff230</code></li>
+                            <li>Pixel 7a: <code>508d75dea10c5cbc3e7632260fc0b59f6055a8a49dd84e693b6d8899edbb01e4</code></li>
+                            <li>Pixel 7 Pro: <code>bc1c0dd95664604382bb888412026422742eb333071ea0b2d19036217d49182f</code></li>
+                            <li>Pixel 7: <code>3efe5392be3ac38afb894d13de639e521675e62571a8a9b3ef9fc8c44fd17fa1</code></li>
+                            <li>Pixel 6a: <code>08c860350a9600692d10c8512f7b8e80707757468e8fbfeea2a870c0a83d6031</code></li>
+                            <li>Pixel 6 Pro: <code>439b76524d94c40652ce1bf0d8243773c634d2f99ba3160d8d02aa5e29ff925c</code></li>
+                            <li>Pixel 6: <code>f0a890375d1405e62ebfd87e8d3f475f948ef031bbf9ddd516d5f600a23677e8</code></li>
+                        </ul>
+
+                        <p>Checking this is useful after installation, but you don't need to check
+                        it manually for verified boot to work. The verified boot public key
+                        flashed to the secure element can only be changed when the device is
+                        unlocked. Unlocking the device performs the same wiping of the secure
+                        element as a factory reset and prevents data from being recovered even if
+                        the SSD was cloned and your passphrase(s) are obtained because the
+                        encryption keys can no longer be derived anymore. The verified boot key is
+                        also one of the inputs for deriving the encryption keys in addition to the
+                        user's lock method(s) and random token(s) on the secure element.</p>
+                    </section>
+
+                    <section id="hardware-based-attestation">
+                        <h3><a href="#hardware-based-attestation">Hardware-based attestation</a></h3>
+
+                        <p>GrapheneOS provides our Auditor app for using a combination of the
+                        verified boot and attestation features to verify that the hardware,
+                        firmware and operating system are genuine along with providing other
+                        useful data from the hardware and operating system.</p>
+
+                        <p>Since the purpose of Auditor is to obtain information about the device
+                        without trusting it to be honest, results aren't shown on the device being
+                        verified. You need a 2nd Android device running Auditor for local QR code
+                        based verification. You can also use our optional device integrity
+                        monitoring service for automatic scheduled verifications with support for
+                        email alerts.</p>
+
+                        <p>See the <a href="https://attestation.app/tutorial">Auditor tutorial</a>
+                        for a guide.</p>
+
+                        <p>Auditor is primarily based on a pairing model where it generates a
+                        hardware backed signing key and hardware backed attestation signing key
+                        and pins them as part of the initial verification. The first verification
+                        is bootstrapped based on chaining trust to one of the Android attestation
+                        roots. After the first verification, it provides a highly secure system
+                        for obtaining information about the device going forward. An attacker
+                        could bypass the initial verification with a leaked attestation key or by
+                        proxying to another device with the device model, OS and patch level that
+                        the user is expecting. Proxying to another device will be addressed in the
+                        future with optional support for the hardware serial number attestation
+                        feature.</p>
+                    </section>
                 </section>
 
                 <section id="replacing-grapheneos-with-the-stock-os">
                     <h3><a href="#replacing-grapheneos-with-the-stock-os">Replacing GrapheneOS with the stock OS</a></h3>
 
                     <p>Installation of the stock OS via the stock factory images is similar to the
-                    process described above but with Google's web flashing tool. However, before
-                    flashing and locking, there's an additional step to fully revert the device to
-                    a clean factory state.</p>
+                    process described above but with
+                    <a href="https://flash.android.com/back-to-public">Google's web flashing
+                    tool</a>. However, before flashing and locking, there's an additional step to
+                    fully revert the device to a clean factory state.</p>
 
                     <p>The GrapheneOS factory images flash a non-stock Android Verified Boot key which
                     needs to be erased to fully revert back to a stock device state. Before flashing the
@@ -380,14 +466,6 @@
                 </section>
             </section>
         </main>
-        <footer>
-            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
-            <ul id="social">
-                <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
-                <li><a href="https://github.com/GrapheneOS">GitHub</a></li>
-                <li><a href="https://reddit.com/r/GrapheneOS">Reddit</a></li>
-                <li><a href="https://www.linkedin.com/company/grapheneos/">LinkedIn</a></li>
-            </ul>
-        </footer>
+        {% include "footer.html" %}
     </body>
 </html>

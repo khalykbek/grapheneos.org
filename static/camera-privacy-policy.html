@@ -22,31 +22,15 @@
         <link rel="canonical" href="https://grapheneos.org/camera-privacy-policy"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
+        <link rel="mask-icon" href="[[path|/mask-icon.svg]]" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        {{css|/main.css}}
+        [[css|/main.css]]
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
+        <link rel="me" href="https://grapheneos.social/@GrapheneOS"/>
     </head>
     <body>
-        <header>
-            <nav id="site-menu">
-                <ul>
-                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
-                    <li><a href="/features">Features</a></li>
-                    <li><a href="/install/">Install</a></li>
-                    <li><a href="/build">Build</a></li>
-                    <li><a href="/usage">Usage</a></li>
-                    <li><a href="/faq">FAQ</a></li>
-                    <li><a href="/releases">Releases</a></li>
-                    <li><a href="/source">Source</a></li>
-                    <li><a href="/history/">History</a></li>
-                    <li><a href="/articles/">Articles</a></li>
-                    <li><a href="/donate">Donate</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
+        {% include "header.html" %}
         <main id="camera-privacy-policy">
             <h1><a href="#camera-privacy-policy">Camera privacy policy</a></h1>
 
@@ -64,24 +48,19 @@
             it to take pictures or record videos with explicit user consent. Only the resulting
             image or video explicitly captured by the user is given to the app. On Android 11 and
             later, only a system camera app can provide the system camera intents. This app is the
-            system camera app on GrapheneOS where it provides that functionality. The design of
-            the interface for the intents is carefully designed to make it harder to trick users
-            into accidentally capturing an image by implementing a delay.</p>
+            system camera app on GrapheneOS where it provides that functionality. The handling of
+            the intents is carefully designed to make it harder to trick users into accidentally
+            capturing an image by implementing a delay.</p>
 
-            <p>This app does not make any network connections and doesn't use any services. It
-            stores settings internally and pictures/videos captured by the user.</p>
+            <p>This app does not make any network connections and doesn't use any services. The
+            app will never include any analytics/telemetry or any form of data collection. No
+            connections will ever be made to a service without the user requesting it. It stores
+            settings internally and pictures/videos captured by the user in Android's media store
+            for the profile.</p>
 
             <p>Unlike nearly any other QR/barcode scanning apps, QR/barcode scanning does not open
             the resulting URL automatically.</p>
         </main>
-        <footer>
-            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
-            <ul id="social">
-                <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
-                <li><a href="https://github.com/GrapheneOS">GitHub</a></li>
-                <li><a href="https://reddit.com/r/GrapheneOS">Reddit</a></li>
-                <li><a href="https://www.linkedin.com/company/grapheneos/">LinkedIn</a></li>
-            </ul>
-        </footer>
+        {% include "footer.html" %}
     </body>
 </html>

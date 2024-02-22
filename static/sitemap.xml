@@ -44,11 +44,11 @@
     </url>
     <url>
         <loc>https://grapheneos.org/history/</loc>
-        <priority>0.5</priority>
+        <priority>0.3</priority>
     </url>
     <url>
         <loc>https://grapheneos.org/history/copperheados</loc>
-        <priority>0.5</priority>
+        <priority>0.1</priority>
     </url>
     <url>
         <loc>https://grapheneos.org/history/legacy-changelog</loc>
@@ -87,6 +87,10 @@
         <priority>0.0</priority>
     </url>
     <url>
+        <loc>https://grapheneos.org/camera-privacy-policy</loc>
+        <priority>0.0</priority>
+    </url>
+    <url>
         <loc>https://grapheneos.org/.well-known/security.txt</loc>
         <priority>0.0</priority>
     </url>
@@ -97,9 +101,5 @@
     <url>
         <loc>https://grapheneos.org/humans.txt</loc>
         <priority>0.0</priority>
-    </url>
-    <url>
-        <loc>https://grapheneos.org/legal/Micay_%20Copperhead_%20Statement%20of%20Defendant%20and%20Counterclaim.pdf</loc>
-        <priority>0.1</priority>
     </url>
 </urlset>

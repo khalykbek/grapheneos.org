@@ -22,53 +22,50 @@
         <link rel="canonical" href="https://grapheneos.org/articles/attestation-compatibility-guide"/>
         <link rel="icon" href="/favicon.ico"/>
         <link rel="icon" sizes="any" type="image/svg+xml" href="/favicon.svg"/>
-        <link rel="mask-icon" href="{{path|/mask-icon.svg}}" color="#1a1a1a"/>
+        <link rel="mask-icon" href="[[path|/mask-icon.svg]]" color="#1a1a1a"/>
         <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
-        {{css|/main.css}}
+        [[css|/main.css]]
         <link rel="manifest" href="/manifest.webmanifest"/>
         <link rel="license" href="/LICENSE.txt"/>
+        <link rel="me" href="https://grapheneos.social/@GrapheneOS"/>
     </head>
     <body>
-        <header>
-            <nav id="site-menu">
-                <ul>
-                    <li><a href="/"><img src="{{path|/mask-icon.svg}}" alt=""/>GrapheneOS</a></li>
-                    <li><a href="/features">Features</a></li>
-                    <li><a href="/install/">Install</a></li>
-                    <li><a href="/build">Build</a></li>
-                    <li><a href="/usage">Usage</a></li>
-                    <li><a href="/faq">FAQ</a></li>
-                    <li><a href="/releases">Releases</a></li>
-                    <li><a href="/source">Source</a></li>
-                    <li><a href="/history/">History</a></li>
-                    <li><a href="/articles/">Articles</a></li>
-                    <li><a href="/donate">Donate</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </nav>
-        </header>
+        {% include "header.html" %}
         <main id="attestation-compatibility-guide">
             <h1><a href="#attestation-compatibility-guide">Attestation compatibility guide</a></h1>
 
-            <p>Apps using SafetyNet attestation to check the authenticity/integrity of the OS can
-            support GrapheneOS by using the standard Android hardware attestation API and
+            <p>Apps using the Play Integrity API or
+            <a href="https://developer.android.com/training/safetynet/deprecation-timeline">obsolete</a>
+            SafetyNet Attestation API to check the authenticity/integrity of the OS can support
+            GrapheneOS by using the standard Android hardware attestation API instead and
             permitting our official release signing keys. Android's
             <a href="https://developer.android.com/training/articles/security-key-attestation">hardware
-            attestation API</a> provides a much stronger form of attestation than SafetyNet with
-            the ability to whitelist the keys of alternate operating systems. It also avoids an
-            unnecessary dependency on Google Play services and Google's SafetyNet servers.</p>
+            attestation API</a> provides a much stronger form of attestation than the Play
+            Integrity API with the ability to whitelist the keys of alternate operating systems.
+            It also avoids an unnecessary dependency on Google Play services and Google's
+            Play Integrity servers.</p>
 
             <p>Devices have been required to ship with hardware attestation support since Android
             8. You can use hardware attestation on devices running Android 8 or later when the
             <code>ro.product.first_api_level</code> system property isn't set to 25 or below,
             which indicates they launched with Android 8 or later with hardware attestation
-            support as a mandatory feature. On older devices, you can continue using SafetyNet
-            attestation. Some low quality devices shipped broken implementations of hardware
+            support as a mandatory feature. On older devices, you can continue using the Play
+            Integrity API. Some low quality devices shipped broken implementations of hardware
             attestation despite the requirement to have it working for CDD/CTS certification and
-            SafetyNet currently still passes on those devices wrongly claiming them to be CTS
-            certified. If you don't want to fail on those devices, then you can start with
-            hardware attestation and fall back to SafetyNet attestation or do both and accept
-            either passing as success.</p>
+            the Play Integrity API currently still passes on those devices wrongly claiming them
+            to be CTS certified. If you don't want to fail on those devices, then you can start
+            with hardware attestation and fall back to the Play Integrity API or do both and
+            accept either passing as success.</p>
+
+            <p>Google provides a <a href="https://github.com/google/android-key-attestation">key
+            attestation library</a> with examples. Our <a href="https://github.com/GrapheneOS/Auditor">MIT
+            / Apache 2 licensed Auditor app</a> can be used a reference implementation for
+            verifying hardware-based attestations. There are some subtleties in the verification
+            process such as making sure only the 2nd certificate in the chain (the one signing the
+            certificate for the key generated by your app) has an attestation extension to prevent
+            making a fake attestation by extending the chain. You can reuse our code and simply
+            omit support for an app generated attestation signing key (attest key) and the other
+            pinning support.</p>
 
             <p>After verifying the signature of the attestation certificate chain and extracting
             the attestation metadata, you can enforce that <code>verifiedBootState</code> is
@@ -78,18 +75,22 @@
             verified boot key fingerprints for the official GrapheneOS releases:</p>
 
             <ul>
+                <li><code>896db2d09d84e1d6bb747002b8a114950b946e5825772a9d48ba7eb01d118c1c</code>: Pixel 8 Pro</li>
+                <li><code>cd7479653aa88208f9f03034810ef9b7b0af8a9d41e2000e458ac403a2acb233</code>: Pixel 8</li>
+                <li><code>ee0c9dfef6f55a878538b0dbf7e78e3bc3f1a13c8c44839b095fe26dd5fe2842</code>: Pixel Fold</li>
+                <li><code>94df136e6c6aa08dc26580af46f36419b5f9baf46039db076f5295b91aaff230</code>: Pixel Tablet</li>
+                <li><code>508d75dea10c5cbc3e7632260fc0b59f6055a8a49dd84e693b6d8899edbb01e4</code>: Pixel 7a</li>
+                <li><code>bc1c0dd95664604382bb888412026422742eb333071ea0b2d19036217d49182f</code>: Pixel 7 Pro</li>
+                <li><code>3efe5392be3ac38afb894d13de639e521675e62571a8a9b3ef9fc8c44fd17fa1</code>: Pixel 7</li>
+                <li><code>08c860350a9600692d10c8512f7b8e80707757468e8fbfeea2a870c0a83d6031</code>: Pixel 6a</li>
                 <li><code>439b76524d94c40652ce1bf0d8243773c634d2f99ba3160d8d02aa5e29ff925c</code>: Pixel 6 Pro</li>
                 <li><code>f0a890375d1405e62ebfd87e8d3f475f948ef031bbf9ddd516d5f600a23677e8</code>: Pixel 6</li>
                 <li><code>0abddeda03b6ce10548c95e0bea196faa539866f929bcdf7eca84b4203952514</code>: Pixel 5a</li>
                 <li><code>36a99eab7907e4fb12a70e3c41c456bcbe46c13413fbfe2436adee2b2b61120f</code>: Pixel 5</li>
                 <li><code>dcec2d053d3ec4f1c9be414aa07e4d7d7cbd12040ad2f8831c994a83a0536866</code>: Pixel 4a (5G)</li>
+                <li><code>9f2454a1657b1b5ad7f2336b39a2611f7a40b2e0ddfd0d6553a359605928df29</code>: Pixel 4a</li>
                 <li><code>3f15fdcb82847fed97427ce00563b8f9ff34627070de5fdb17aca7849ab98cc8</code>: Pixel 4 XL</li>
                 <li><code>80ef268700ee42686f779a47b4a155fe1ffc2eedf836b4803caab8fa61439746</code>: Pixel 4</li>
-                <li><code>9f2454a1657b1b5ad7f2336b39a2611f7a40b2e0ddfd0d6553a359605928df29</code>: Pixel 4a</li>
-                <li><code>3f36e3482e1ff82986576552cb4fd08af09f8b09d3832314341e04c42d2919a4</code>: Pixel 3a XL</li>
-                <li><code>73d6c63a07610404fe16a4e07dd24e41a70d331e9d3ef7bba2d087e4761eb63a</code>: Pixel 3a</li>
-                <li><code>06dd526ee9b1cb92aa19d9835b68b4ff1a48a3ad31d813f27c9a7d6c271e9451</code>: Pixel 3 XL</li>
-                <li><code>0f9a9cc8ade73064a54a35c5509e77994e3aa37b6fb889dd53af82c3c570c5cf</code>: Pixel 3</li>
             </ul>
 
             <p>The <code>verifiedBootKey</code> field is binary data so you either need to encode
@@ -104,7 +105,7 @@
             <p>The hardware attestation API also provides other useful information signed by the
             hardware including the OS patch level, in a way that even an attacker exploiting the
             OS after boot to gain root cannot trivially bypass. It's a better feature than the
-            SafetyNet API designed for the lowest common denominator.</p>
+            Play Integrity API which has to be designed for the lowest common denominator.</p>
 
             <p>GrapheneOS users are strongly encouraged to share this documentation with app
             developers enforcing only being able to use the stock OS. Send an email to the
@@ -114,14 +115,6 @@
             app security model but substantially reinforces it, so it cannot be justified with
             reasoning based on security, anti-fraud, etc.</p>
         </main>
-        <footer>
-            <a href="/"><img src="{{path|/mask-icon.svg}}" width="512" height="512" alt=""/>GrapheneOS</a>
-            <ul id="social">
-                <li><a href="https://twitter.com/GrapheneOS">Twitter</a></li>
-                <li><a href="https://github.com/GrapheneOS">GitHub</a></li>
-                <li><a href="https://reddit.com/r/GrapheneOS">Reddit</a></li>
-                <li><a href="https://www.linkedin.com/company/grapheneos/">LinkedIn</a></li>
-            </ul>
-        </footer>
+        {% include "footer.html" %}
     </body>
 </html>

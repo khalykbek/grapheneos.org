@@ -1,10 +1,11 @@
 {
   "dependencies": {
-    "csso-cli": "^3.0.0",
-    "eslint": "^8.13.0",
-    "html-minifier": "^4.0.0",
-    "stylelint": "^14.7.0",
-    "stylelint-config-standard": "^25.0.0",
-    "terser": "^5.12.1"
+    "csso-cli": "^4.0.2",
+    "eslint": "^8.56.0",
+    "html-minifier-terser": "^7.2.0",
+    "stylelint": "^16.2.1",
+    "stylelint-config-standard": "^36.0.0",
+    "terser": "^5.27.2",
+    "vnu-jar": "^23.4.11"
   }
 }

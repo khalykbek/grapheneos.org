@@ -11,6 +11,8 @@ body {
     min-height: 100vh;
     min-height: -webkit-fill-available; /* replace with stretch when standardized */
     font-family: Roboto, sans-serif;
+    line-height: 1.5;
+    letter-spacing: 0.009375rem;
     background-color: #fafafa; /* grey50 */
     color: rgba(0 0 0 / 87%); /* 87% black */
     margin: 0;
@@ -35,19 +37,71 @@ h1 a, h1 a:visited, h2 a, h2 a:visited, h3 a, h3 a:visited, h4 a, h4 a:visited, 
     color: rgba(0 0 0 / 87%); /* 87% black */
 }
 
+h1 {
+    /* Display small */
+    font-size: 2.25rem;
+    line-height: 2.75rem;
+    letter-spacing: 0;
+}
+
+h2 {
+    /* Headline small */
+    font-size: 1.5rem;
+    line-height: 2rem;
+    letter-spacing: 0;
+}
+
+h3 {
+    /* Title large */
+    font-size: 1.375rem;
+    line-height: 1.75rem;
+    letter-spacing: 0;
+}
+
+h4 {
+    /* Title medium */
+    font-size: 1rem;
+    line-height: 1.5rem;
+    letter-spacing: 0.009375rem;
+}
+
+h5 {
+    /* Title small */
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    letter-spacing: 0.00625rem;
+}
+
+h6 {
+    /* Label small */
+    font-size: 0.6875rem;
+    line-height: 1rem;
+    letter-spacing: 0.03125rem;
+}
+
 code, pre {
-    background-color: #e0e0e0; /* grey300 */
+    background-color: #e0e2ec; /* surface-variant */
+    color: #44474e; /* on-surface-variant */
     font-family: "Roboto Mono", monospace;
+    font-size: 0.875rem; /* body-medium.size */
+    letter-spacing: 0.015625rem; /* body-medium.tracking */
+    line-height: 1.25rem; /* body-medium.line-height */
 }
 
 pre {
+    border-radius: 12px;
+    border: 1px solid #74777f /* outline */;
     overflow-x: auto;
-    border-radius: 5px;
-    padding: 10px;
+    padding: 0.875rem;
 }
 
 code {
-    border-radius: 2.5px;
+    border-radius: 8px;
+    padding: 0.25rem;
+}
+
+var {
+    color: #ba1a1a;
 }
 
 #site-menu ul {
@@ -60,7 +114,6 @@ code {
 
 #site-menu {
     background-color: #212121; /* grey900 */
-    box-shadow: 0 2px 2px 0 rgba(0 0 0 / 14%), 0 1px 5px 0 rgba(0 0 0 / 12%), 0 3px 1px -2px rgba(0 0 0 / 20%);
     white-space: nowrap;
 }
 
@@ -112,6 +165,10 @@ main {
     overflow-wrap: break-word;
 }
 
+button, input, select, textarea {
+    font-family: inherit;
+}
+
 button, .button, .button:visited {
     color: white;
     font-size: 0.9em;
@@ -134,6 +191,12 @@ button:focus, .button:focus {
     box-shadow: 0 2px 4px -1px rgba(0 0 0 / 20%), 0 4px 5px 0 rgba(0 0 0 / 14%), 0 1px 10px 0 rgba(0 0 0 / 12%);
 }
 
+button:disabled {
+    background-color: rgb(26 27 30 / 12%);
+    color: rgb(26 27 30 / 38%);
+    cursor: not-allowed;
+}
+
 .button, .button:visited, .button:hover, .button:active {
     text-decoration: none;
     padding-top: 0.75rem;
@@ -148,11 +211,11 @@ button:focus, .button:focus {
     text-align: center;
 }
 
-.coin-address > img {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+.coin-address img {
+    image-rendering: pixelated;
+    width: 180px;
+    height: 180px;
+    border-radius: 16px;
 }
 
 footer img {
@@ -168,7 +231,7 @@ footer {
     margin-left: auto;
     margin-right: auto;
     padding: 1em;
-    max-width: 800px;
+    max-width: 100vw;
     overflow-wrap: break-word;
     text-align: center;
 }
@@ -178,13 +241,15 @@ footer a, footer a:visited {
 }
 
 #social {
+    line-height: 2;
     margin-top: 2em;
     padding: 0;
     list-style-type: none;
+    max-inline-size: 60ch;
 }
 
 #social li {
-    display: inline;
+    display: inline-block;
     padding: 0 0.5em;
 }
 
@@ -230,6 +295,7 @@ main.normalize {
 
 .hero h1 {
     margin: 0;
+    line-height: 1;
 }
 
 .device-img {
@@ -269,7 +335,7 @@ main.normalize {
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: local("Roboto"), local("Roboto-Regular"), url("/fonts/roboto-v29-regular-latin.woff2") format("woff2");
+    src: local("Roboto"), local("Roboto-Regular"), url("/fonts/roboto-v30-regular-latin.woff2") format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -279,7 +345,7 @@ main.normalize {
     font-style: italic;
     font-weight: 400;
     font-display: swap;
-    src: local("Roboto Italic"), local("Roboto-Italic"), url("/fonts/roboto-v29-regular-italic-latin.woff2") format("woff2");
+    src: local("Roboto Italic"), local("Roboto-Italic"), url("/fonts/roboto-v30-regular-italic-latin.woff2") format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -289,7 +355,7 @@ main.normalize {
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: local("Roboto Bold"), local("Roboto-Bold"), url("/fonts/roboto-v29-bold-latin.woff2") format("woff2");
+    src: local("Roboto Bold"), local("Roboto-Bold"), url("/fonts/roboto-v30-bold-latin.woff2") format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -299,7 +365,7 @@ main.normalize {
     font-style: normal;
     font-weight: 400;
     font-display: swap;
-    src: local("Roboto Mono"), local("RobotoMono-Regular"), url("/fonts/robotomono-v13-regular-latin.woff2") format("woff2");
+    src: local("Roboto Mono"), local("RobotoMono-Regular"), url("/fonts/robotomono-v23-regular-latin.woff2") format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -309,7 +375,7 @@ main.normalize {
     font-style: normal;
     font-weight: 700;
     font-display: swap;
-    src: local("Roboto Mono Bold"), local("RobotoMono-Bold"), url("/fonts/robotomono-v13-bold-latin.woff2") format("woff2");
+    src: local("Roboto Mono Bold"), local("RobotoMono-Bold"), url("/fonts/robotomono-v23-bold-latin.woff2") format("woff2");
     unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
@@ -355,8 +421,18 @@ main.normalize {
         background-color: #7ca3d4; /* button pressed on Android */
     }
 
+    button:disabled {
+        background-color: rgb(227 226 230 / 12%);
+        color: rgb(227 226 230 / 38%);
+    }
+
     code, pre {
-        background-color: #424242; /* grey800 */
+        background-color: #44474e; /* surface-variant */
+        color: #c4c6cf; /* on-surface-variant */
+    }
+
+    pre {
+        border-color: #8e9099; /* outline */
     }
 
     footer a, footer a:visited {
@@ -386,5 +462,9 @@ main.normalize {
 
     .surface {
         background-color: #212121;
+    }
+
+    var {
+        color: #ffb4ab;
     }
 }

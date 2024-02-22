@@ -16,13 +16,19 @@ const redirects = new Map([
     ["/#upstream", "/faq#upstream"],
 
     ["/usage#default-connections", "/faq#default-connections"],
+    ["/usage#sandboxed-google-play-esim", "/usage#esim-support"],
     ["/usage#sandboxed-play-services", "/usage#sandboxed-google-play"],
     ["/usage#sandboxed-play-services-installation", "/usage#sandboxed-google-play-installation"],
     ["/usage#sandboxed-play-services-limitations", "/usage#sandboxed-google-play-limitations"],
+    ["/usage#google-camera", "/usage#pixel-camera"],
 
     ["/faq#dns", "/faq#custom-dns"],
+
     ["/install/cli#fastboot-as-non-root", "/install/cli#flashing-as-non-root"],
+    ["/install/cli#obtaining-signify", "/install/cli#obtaining-openssh"],
     ["/install/web#fastboot-as-non-root", "/install/web#flashing-as-non-root"],
+
+    ["/build#enabling-updatable-apex-components", "/build#apex-components"],
 
     // legacy devices
     ["/releases#marlin-stable", "/faq#legacy-devices"],
@@ -33,6 +39,14 @@ const redirects = new Map([
     ["/releases#taimen-beta", "/faq#legacy-devices"],
     ["/releases#walleye-stable", "/faq#legacy-devices"],
     ["/releases#walleye-beta", "/faq#legacy-devices"],
+    ["/releases#bonito-stable", "/faq#legacy-devices"],
+    ["/releases#bonito-beta", "/faq#legacy-devices"],
+    ["/releases#sargo-stable", "/faq#legacy-devices"],
+    ["/releases#sargo-beta", "/faq#legacy-devices"],
+    ["/releases#crosshatch-stable", "/faq#legacy-devices"],
+    ["/releases#crosshatch-beta", "/faq#legacy-devices"],
+    ["/releases#blueline-stable", "/faq#legacy-devices"],
+    ["/releases#blueline-beta", "/faq#legacy-devices"],
 
     // legacy servers
     ["/articles/grapheneos-servers#apps.grapheneos.org", "/articles/grapheneos-servers#releases.grapheneos.org"],
@@ -45,12 +59,12 @@ const redirects = new Map([
     ["/install/#obtaining-fastboot", "/install/cli#obtaining-fastboot"],
     ["/install/#standalone-platform-tools", "/install/cli#standalone-platform-tools"],
     ["/install/#checking-fastboot-version", "/install/cli#checking-fastboot-version"],
-    ["/install/#fastboot-as-non-root", "/install/cli#fastboot-as-non-root"],
+    ["/install/#fastboot-as-non-root", "/install/cli#flashing-as-non-root"],
     ["/install/#connecting-phone", "/install/cli#connecting-phone"],
     ["/install/#unlocking-the-bootloader", "/install/cli#unlocking-the-bootloader"],
-    ["/install/#obtaining-signify", "/install/cli#obtaining-signify"],
+    ["/install/#obtaining-signify", "/install/cli#obtaining-openssh"],
     ["/install/#obtaining-factory-images", "/install/cli#obtaining-factory-images"],
-    ["/install/#flashing-factory-images", "/install/cli#flashing-as-non-root"],
+    ["/install/#flashing-factory-images", "/install/cli#flashing-factory-images"],
     ["/install/#troubleshooting", "/install/cli#troubleshooting"],
     ["/install/#locking-the-bootloader", "/install/cli#locking-the-bootloader"],
     ["/install/#post-installation", "/install/cli#post-installation"],
@@ -58,6 +72,8 @@ const redirects = new Map([
     ["/install/#disabling-oem-unlocking", "/install/cli#disabling-oem-unlocking"],
     ["/install/#replacing-grapheneos-with-the-stock-os", "/install/cli#replacing-grapheneos-with-the-stock-os"],
     ["/install/#further-information", "/install/cli#further-information"],
+    ["/install/web#connecting-phone", "/install/web#connecting-device"],
+    ["/install/cli#connecting-phone", "/install/cli#connecting-device"],
 ]);
 
 function handleHash() {
